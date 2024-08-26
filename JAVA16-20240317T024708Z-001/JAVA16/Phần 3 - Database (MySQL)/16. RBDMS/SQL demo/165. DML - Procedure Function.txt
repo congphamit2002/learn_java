@@ -1,0 +1,72 @@
+========= PROCEDUCE =========
+1. Viết phương thức liệt kê các mặt hàng
+DELIMITER $$
+CREATE PROCEDURE getItems()
+BEGIN
+	// todo query
+END $$
+DELIMITER;
+
+CALL getItems();
+
+2. Viết phương thức liệt kê tên các mặt hàng theo loại hàng
+DELIMITER $$
+CREATE PROCEDURE getItems(p_item_id int)
+BEGIN
+	// todo query
+END $$
+DELIMITER ;
+
+CALL getItems(2);
+
+3. Viết phương thức thêm n rows dữ liệu test cho bảng LoaiHang
+   1  R1 || 3  R3
+   2  R2 || 4  R4
+   5  R5 || n  R5
+
+DELIMITER $$
+CREATE PROCEDURE ThemLoaiHang(num_of_rows int)
+BEGIN
+	DECLARE row INT DEFAULT 1;
+	WHILE row < num_of_rows DO
+		// todo query
+		SET row = rowIndex + 1;
+    END WHILE;
+END $$
+DELIMITER ;
+
+CALL ThemLoaiHang(20);
+
+4. Viết phương thức liệt kê các phần tử chẵn nhỏ hơn 10
+   lable_signature:
+   LOOP
+   END LOOP;
+
+5. Viết phương thức liệt kê các phần tử chẵn nhỏ hơn 10
+   WHILE condition DO
+   END WHILE;
+   
+========= FUNCTION =========
+1. Tính tổng các phần tử chẵn nhỏ hơn 10
+
+https://stackoverflow.com/questions/26015160/deterministic-no-sql-or-reads-sql-data-in-its-declaration-and-binary-logging-i
+SET GLOBAL log_bin_trust_function_creators = 1;
+
+DELIMITER 
+$$
+CREATE FUNCTION sum(n int)
+RETURNS INT
+BEGIN
+	DECLARE digit  INT;
+	DECLARE result INT;
+        
+	// todo calculation
+    
+    RETURN result;
+END; 
+$$
+DELIMITER ;
+
+SELECT SumEvenNumber(20);
+
+   

@@ -1,0 +1,8 @@
++ FrontEnd
+HTML5 --> require, pattern
+JavaScript --> validate
+
++ BackEnd
+JAVA API
+--> Hibernate Validator - Form
+Database - Constraint

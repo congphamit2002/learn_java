@@ -1,0 +1,24 @@
+1. Merge
++ Gộp 2 commits mới nhất của mỗi branch
++ Tạo ra commit mới (commit merged)
++ Nếu xảy ra conflicts --> fix 1 lần duy nhất
+
+2. Rebase
++ Gộp nhánh bug vào feature sử dụng rebase
++ Gộp commits từ nhánh feature vào commit mới nhất của bug
++ Số lượng commit là không đổi, nhưng mà sẽ đổi mã hash bên nhánh feature
++ Nếu xảy ra conflicts --> có thể fix nhiều lần
+
+3. Khi nào sử dụng merge
+==> Gộp 2 nhánh(version) của dự án
++ 2 version sẽ có rất nhiều chức năng nhiều commits
+==> Tránh fix conflict nhiều lần
+==> Hiện thị commit merge để biết các nhánh đã được gộp vào nhau
+
+4. Khi nào sử dụng rebase
+==> Khi push code bị reject
+* Updates were rejected, because remote has some works do not have in your local
++ git fetch [origi]
++ git rebase origin/....
++ git push ...
+

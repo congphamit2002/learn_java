@@ -1,0 +1,49 @@
+PROJECT: TODO-APP
+=================
+Giới thiệu: Mỗi chức năng là một commit
+VD: Task-01: Mở tập tin readme.md
+             Cập nhật nội dung: VERSION: TODO-APP-1.0-SNAPSHOT
+             add, commit ....
+    =========================================================
+    Task-05: Tạo tập tin mul.txt với nội dung rỗng
+             add, commit ....
+
+REMOTE BRANCH: todo-app-1.0
+01. + Update version TODO-APP-1.0-SNAPSHOT 
+02. + Tính tổng cho 2 số    : sum2.txt      
+03. + Tính tổng cho 3 số    : sum3.txt      
+04. + Tính hiệu cho 2 số    : sub.txt      
+05. + Tính tích cho 2 số    : mul.txt
+06. + Tính thương cho 2 số  : div.txt
+-----
+REMOTE BRANCH: todo-app-2.0
+07. + Update version TODO-APP-2.0-SNAPSHOT       
+08. + Kiểm tra 1 số có phải là số nguyên tố không    : prime.txt
+09. + Kiểm tra 1 số có phải là số hạnh phúc không    : happy.txt
+10. + Kiểm tra 1 số có phải là số đối xứng không     : symmetric.txt
+11. + Kiểm tra 1 số có phải là số chính phương không : square.txt
+-----
+REMOTE BRANCH: todo-app-3.0
+12. + Update version TODO-APP-3.0-SNAPSHOT  
+13. + Tính tổng cho n số   : sums.txt 
+14. + Tính hiệu cho n số   : subs.txt
+15. + Tính tích cho n số   : muls.txt
+16. + Tính thương cho n số : divs.txt
+-----
+REMOTE BRANCH: todo-app-4.0
+17. + Update version TODO-APP-4.0-SNAPSHOT
+18. + Kiểm tra 1 số có phải là số chẵn không     : even.txt
+19. + Kiểm tra 1 số có phải là số lẻ không       : odd.txt   
+20. + Kiểm tra 1 số có phải là số mạnh mẽ không  : strong.txt
+21. + Kiểm tra 1 số có phải là số hoàn hảo không : perfect.txt
+-----
+REMOTE BRANCH: todo-app-5.0
+22. + Update version TODO-APP-5.0-SNAPSHOT
+23. + Kiểm tra 1 số có phải là số âm không       : negative.txt
+24. + Kiểm tra 1 số có phải là số dương không    : positive.txt
+25. + Kiểm tra 1 số có phải là số kì quặc không  : weird.txt
+26. + Kiểm tra 1 số có phải là số tự mãn không   : enough.txt
+27. + Tìm max 2 số nguyên                        : max2.txt
+28. + Tìm min 2 số nguyên                        : min2.txt
+29. + Tìm max 3 số nguyên                        : max3.txt
+30. + Tìm min 3 số nguyên                        : min3.txt

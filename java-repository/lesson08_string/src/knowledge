@@ -1,0 +1,36 @@
+- Khi cộng n chuỗi với nhau ta cần tốn n - 1 ô nhớ để lưu trữ
+--> Vì string là immutable nên ta không thể thay đổi trực tiếp giá 
+ô nhớ của chúng.(impossible) (Nếu dùng toán tử '+' và hàm concat sẽ rất tốn memory)
+ex: String i = "Box"; // constant pool - heap (h1)
+JvmUtils.hash("i1", i);
+
+i = i.concat("Layout"); //h2
+JvmUtils.hash("i2", i);
+
+Thay vào đó ta có thể sử dụng các phương thức trong mutable là:
+- StringBuffer: Mutable multi-thread
+- StringBuilder: Mutable single-thread
+--> Tối ưu hóa memory (thay đổi trực tiếp được ô nhớ, cập nhật được ô nhớ heap)
+--> Tất cả các hàm (phương thức) của StringBuffer và StringBuilder đều được hỗ
+trợ giống nhau nhưng có 1 điểm khác biệt đó chính là: 
+StringBuffer: hỗ trợ đa luồng
+--> Tại một thời điểm có thể truy cập nhiều luồng làm việc (scale data)
+StringBuilder: hỗ trợ đơn luồng
+--> Tại một thời điểm chỉ có một luồng làm việc, một chương trình được phép
+truy cập đến nó
+
+--> Java is a multi-threaded programming language: Java là ngôn ngữ lập trình đa luồng
+--> Một chương trình java đa luồng có thể có 2 hoặc nhiều phần cùng chạy đồng thời,
+mỗi phần đó có thể tự handle, tự chạy 1 task khác nhau trên cùng 1 thời điểm để tối
+ưu hóa tài nguyên trong CPUs.
+
+Một method được dùng từ khóa 'native' thì method đó được implement bên trong jvm của java
+và chúng ta sẽ không biết hàm truyền của nó là gì.
+
+String: store data
+<StringBuilder>, StringBuffer: operation --> append, delete
+--> reduce redundant memory
+StringBuilder > String || StringBuffer
+
+Nếu như bình thường không chú ý tới thread thì nên dùng StringBuilder vì tốc độ xử lý cao hơn
+nhưng hiện tại thì không đáng kể (Vì nó không cần kiểm tra biến có đang xử lý bởi luồng hay không)

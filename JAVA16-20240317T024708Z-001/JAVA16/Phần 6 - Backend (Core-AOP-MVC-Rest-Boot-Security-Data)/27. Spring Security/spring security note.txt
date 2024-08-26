@@ -1,0 +1,22 @@
+Spring Security 
+
+Taglib commands
+https://www.tutorialspoint.com/spring_security/spring_security_with_taglib.htm
+
+Default user schema
+https://docs.spring.io/spring-security/site/docs/4.2.x/reference/html/appendix-schema.html
+
+
+Session and Cookies
+https://www.javatpoint.com/session-vs-cookies#:~:text=A%20session%20stores%20the%20variables,lifetime%20set%20by%20the%20user.
+
+Session: store in server, web server Java example Tomcat
+       : Spring --> RequestContextHolder.currentRequestAttributes().getSessionId()
+
+Cookies: store in client, web browser
+       : Firefox --> Storage -> Cookies -> JSESSIONID = ....................
+
+Config session timeout
+https://stackoverflow.com/questions/36795678/how-to-enable-session-and-set-session-timeout-in-spring-security
+
+

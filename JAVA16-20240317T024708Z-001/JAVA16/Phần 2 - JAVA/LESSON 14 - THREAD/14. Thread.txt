@@ -1,0 +1,48 @@
+Package: Thread
+============================================
++ Ex01: main & t0
+        Using Runnable and Thread
+        Explain how a thread works - anonymous
+
++ Ex02: main & t0
+        Using join to control order of thread t0
+
++ Ex03: Demo performance case with 3 calculation tasks - Should be 9 seconds
+        Run parallel took ~3 seconds
+
++ Ex04: Demo volatile
+
+Package: Thread.Pool
+ExecutorService service = Executors.newSingleThreadExecutor();
+Void         : service.execute(Runnable)
+Future<T>    : service.submit(Callable<T>)
+FutureTask<T>:
+             + Future<T>: get
+             + Callable<T>
+============================================
++ Ex01: Nested Task: sleep 3s prior finished time
+        Initial 8 Tasks into List<Task>
+        Initial a Thread Pool with single Thread, 4 Threads
+        Loop List<Task> to >>execute<< by service
+        Shutdown
+
++ Ex02: Nested Task: Get random number
+        Using >>submit<< in ExecutorService
+        Task implements Callable<T>
+        
++ Ex03: Using FutureTask<T>
+        T: List<String>
+        ft.get << service.submit berfore get
+
++ Ex04: Performance In Reality with 3 heavy queries
+        Runnable: task
+        tasks.forEach(task -> threadManager.safelyScheduleTask(executor, task));
+
+Package: Thread.state.deadlock
+============================================
++ Demo synchonized with multi Threads access one Task with [non]-synchonized 
++ Demo deadlock with suspend and resume, wait notify       
+         
+============================================
+Package: Quartz, Cron Job Trigger
+	 

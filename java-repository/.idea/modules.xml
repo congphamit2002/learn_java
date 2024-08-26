@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/JavaCore/JavaCore.iml" filepath="$PROJECT_DIR$/JavaCore/JavaCore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/java-repository.iml" filepath="$PROJECT_DIR$/java-repository.iml" />
+      <module fileurl="file://$PROJECT_DIR$/java-repository1.iml" filepath="$PROJECT_DIR$/java-repository1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lesson01_design_pattern/lesson01_design_pattern.iml" filepath="$PROJECT_DIR$/lesson01_design_pattern/lesson01_design_pattern.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lesson02_data_structure/lesson02_data_structure.iml" filepath="$PROJECT_DIR$/lesson02_data_structure/lesson02_data_structure.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lesson03_oop/lesson03_oop.iml" filepath="$PROJECT_DIR$/lesson03_oop/lesson03_oop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lesson04_oop_features/lesson04_oop_features.iml" filepath="$PROJECT_DIR$/lesson04_oop_features/lesson04_oop_features.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lesson06_exception/lesson06_exception.iml" filepath="$PROJECT_DIR$/lesson06_exception/lesson06_exception.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lesson07_libraries/lesson07_libraries.iml" filepath="$PROJECT_DIR$/lesson07_libraries/lesson07_libraries.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lesson08_string/lesson08_string.iml" filepath="$PROJECT_DIR$/lesson08_string/lesson08_string.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lesson10_array/lesson10_array.iml" filepath="$PROJECT_DIR$/lesson10_array/lesson10_array.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lesson11_collections/lesson11_collections.iml" filepath="$PROJECT_DIR$/lesson11_collections/lesson11_collections.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lesson12_streams/lesson12_streams.iml" filepath="$PROJECT_DIR$/lesson12_streams/lesson12_streams.iml" />
+    </modules>
+  </component>
+</project>

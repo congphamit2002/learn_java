@@ -1,0 +1,29 @@
+=========== DEMO TODO-APP WITH VCS-GIT Giải lập ===========
+
+1.0 : README: 1.0-SNAPSHOT
++ Tính tổng cho 2 số    : sum.txt
++ Tính hiệu cho 2 số    : sub.txt
+
+2.0 : README: 2.0-SNAPSHOT
++ Tính tích cho 2 số    : mul.txt
+---
++ Tính thương cho 2 số  : div.txt
+
+3.0 : README: 3.0-SNAPSHOT
++ Kiểm tra 1 số có phải là số nguyên tố không    : prime.txt
++ Kiểm tra 1 số có phải là số hạnh phúc không    : happy.txt
+---
++ Kiểm tra 1 số có phải là số chẵn không         : even.txt
+
+4.0: README: 4.0-SNAPSHOT
+5.0: README: 5.0-SNAPSHOT
+
+------------> Return Bugs
+1.1 : README: 1.1-SNAPSHOT
++ Sửa lỗi tràn giá trị lớn nhất của số nguyên int khi tính tổng
++ Sửa lỗi tràn giá trị nhỏ nhất của số nguyên int khi tính hiệu
+
+------------> Return Bugs
+2.1: README: 2.1-SNAPSHOT
++ Sửa lỗi chia không trong hàm tìm thương
++ Sửa lỗi tràn giá trị lớn nhất của int khi tìm tích

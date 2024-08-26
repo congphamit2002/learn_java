@@ -1,0 +1,103 @@
+1. Liệt kê 
+   + Liệt kê toàn bộ thông tin các loại hàng trong hệ thống 
+   + Liệt kê LoaiHang theo MaLoai --> Statement
+   + Thêm mới/cập nhật LoaiHang --> PrepareStatement
+   
+   + Liệt kê LoaiHang theo TenLoai --> SQL Injection
+	 --> SQL Injection --> URL/UI --> SQL(SQL clause)
+	 --> Tiêm/truyền 1 câu lệnh SQL --> để thực hiện 1 tác vụ nào đó
+	 VD: Đăng nhập
+			+ ipUsername=a
+				--> a' OR '1=1
+			+ ipPassword=b
+		 --> SELECT * FROM user
+			  WHERE username = 'a' OR '1=1'
+				AND password = 'b'
+	
+	Cause --> JDBC --> Statement --> parameter as String
+	Fix   -->          PrepareStatement
+				       Idea --> ' --> &x86
+			
+   + OOP --> HAS-A --> Item has an ItemGroup
+			 class Item {
+				int id;
+				ItemGroup ig;
+			 }
+	     --> IS-A
+			 List is an ArrayList
+			 List is a LinkedList
+			 Shape is a Square
+			
+			ORM: Object Relational Mapping
+				CLASS --> TABLE
+			
+   + Liệt kê(Tìm kiếm) các mặt hàng(MatHang, LoaiHang) theo TenLoai
+		--> ItemGroup
+			id,
+			name,
+			List<Item>
+		--> Item
+			id,
+			name,
+			color,
+			itemGroup
+			// igName
+   + Liệt kê(Tìm kiếm) tất cả các loại hàng(LoaiHang, Danh Sach MatHang)
+   + Liệt kê(Tìm kiếm) các mặt hàng(MatHang) được bán trong ngày bất kì
+   
+>> Statement, PrepareStatement
+>> SQL Injection, Entity, HAS-A
+
+2. Đếm số lượng các mặt hàng theo từng loại hàng - C16
+MaLH, TenLH, TongSoLuong, DanhSachMatHang
+ 1      Áo      20        Áo sơ mi-S-10, Áo sơ mi-M-2, Áo Khoác-M-8
+ 2      Quần    12        Quần jean-S-10, Quần short-M-2
+
+3. Hiển thị mặt hàng có số lượng nhiều nhất trong mỗi loại hàng - C21
+>> Table - DTO: Data Transfer Object
+   --> Khi dữ liệu trả về chứa columns ở tables
+   và có thể gồm columns từ tính toán ra
+   --> Tạo class đuôi là Dto để nhận dữ liệu từ truy vấn đó
+   
+   --> 
+
+4. Thêm mới nhân viên vào hệ thống
+   Thông tin mật khẩu được mã hóa theo chuẩn 'MD5', SHA-256, BCrypt
+   + one direction encrypt
+	 . password --> md5(password) --> yhcdcdhchdsjdisjdisjd
+	   --> abc --> qưertyuiwertyuierty
+	   --> abc --> qưertyuiwertyuierty
+	   
+	   
+   + 2 directions encrypt
+	 . base64
+	
+   --> Tai Khoan
+   --> Mat Khau
+
+   --> ID TK,MK,HT,....,e2e
+   
+--------------- At the end of lesson ---------------------------
+5. Cho tập tin data.txt lưu trữ danh sách cách loại hàng.
+   Viết chương trình thêm dữ liệu từ tập tin vào database
+---------
+1, Áo
+2, Quần
+3, Mũ
+---------
+>> Batch Update
+
+--> txt --> List<String> --> List<ItemGroup>
+--> save(List<ItemGroup> igs);	
+
+
+save(ItemGroup);
+
+6. Cập nhập
+   + Số lượng mặt hàng MaMH=1, MaKC=L thành 80->40
+   + Số lượng mặt hàng MaMH=1, MaKC=M thành 40->80
+   + .....
+>> Transaction
+=====================================================================
+
+

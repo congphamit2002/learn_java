@@ -1,0 +1,20 @@
+SELECT * FROM MatHang;
+
+SELECT MaMH, TenMH, max(Giaban) GiaBanCaoNhat
+FROM Mathang
+WHERE MaLoai = (SELECT MaLoai
+				FROM LoaiHang
+                WHERE TenLoai LIKE '%Giày%');
+
+18. Tìm mặt hàng có giá bán cao nhất của mỗi loại hàng
+WITH MatHang_GiaBan AS (
+SELECT lh.MaLoai, lh.TenLoai, max(mh.GiaBan) GiaBanCaoNhat
+FROM MatHang mh
+  JOIN LoaiHang lh ON mh.MaLoai = lh.MaLoai
+  GROUP BY mh.MaLoai
+)
+SELECT * 
+FROM MatHang mh
+JOIN MatHang_GiaBan mhgb 
+	ON mh.MaLoai = mhgb.MaLoai
+      AND mh.GiaBan = mhgb.GiaBanCaoNhat;

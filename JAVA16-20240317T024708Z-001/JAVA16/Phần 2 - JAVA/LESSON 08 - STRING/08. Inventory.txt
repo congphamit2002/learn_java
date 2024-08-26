@@ -1,0 +1,50 @@
+Bài tập 1: 
+Viết chương trình in ra danh sách bài nhạc mp3 có trong thư mục music
+Input:    String bh1  = d:/music/somthingyoulike.mp3
+          String bh2  = d:/music/foreoverandone.mp3
+          String bh3  = d:/music/takemetoyourheart.mov
+String [] arrStr = {bh1, bh2, bh3}
+Output:
+Danh sach bai hat mp3 trong thu muc d:/music
+   1. 	somthingyoulike
+   2.   foreoverandone
+
+Bài tập 2:
+Cho dãy số trong chuỗi s cách nhau bởi ","
+Viết chương trình in ra danh sách các số xuất hiện 1 lần trong chuỗi sau
+String s = "1,1,2,3,4,2,4,5,50";
+
+Kết quả: 3,5
+   
+Bài tập 3:
+Cho danh sách sinh viên
+String students = "LeNa, LeTeo, HoangNa, VanTeo, LeTa";
+Tìm và in ra những sinh viên bắt đầu với "Le".
+	
+Bài tập 4: StringBuilder vs StringBuffer
+
+1. Cho chuỗi string "abcdecbfk".
++ Viết chương trình loại bỏ các phần tử trùng nhau trong chuỗi
+  Kết quả: abcdefk
+
++ Viết chương trình đếm số lần xuất hiện của từng kí tự trong chuỗi
+  Kết quả: a:1
+           b:2
+	   c:2
+	   d:1
+	   e:1
+	   f:1
+	   k:1
+
+2. Viết chương trình kiểm tra 23456 chuỗi string có phải là đảo chữ(anagram) của nhau hay không.
+speed, deeps(DeEps)
+hello, oXlEh
+
+3. String permutation
+Input: abc
+Output: abc, acb, bac, bca, cab, cba
+		   
+		   
+		   
+
+	

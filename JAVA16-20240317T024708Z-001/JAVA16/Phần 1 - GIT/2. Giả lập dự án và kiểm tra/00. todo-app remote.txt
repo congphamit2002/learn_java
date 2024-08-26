@@ -1,0 +1,28 @@
+VERSION: TODO-APP-1.0-SNAPSHOT
+
+01. + Update version TODO-APP-1.0-SNAPSHOT : Quyền
+02. + Tính tổng cho 2 số    : sum2.txt Ý      
+03. + Tính tổng cho 3 số    : sum3.txt Quyền     
+04. + Tính hiệu cho 2 số    : sub.txt  Đ-Hiệu    
+05. + Tính tích cho 2 số    : mul.txt
+06. + Tính thương cho 2 số  : div.txt  Nhân
+-----
+07. + Update version TODO-APP-2.0-SNAPSHOT       
+08. + Kiểm tra 1 số có phải là số nguyên tố không    : prime.txt     Nhân
+09. + Kiểm tra 1 số có phải là số hạnh phúc không    : happy.txt     Vân
+10. + Kiểm tra 1 số có phải là số đối xứng không     : symmetric.txt Quyền
+11. + Kiểm tra 1 số có phải là số chính phương không : square.txt
+-----
+12. + Update version TODO-APP-3.0-SNAPSHOT  
+13. + Tính tổng cho n số   : sums.txt Vân
+14. + Tính hiệu cho n số   : subs.txt Nhân
+15. + Tính tích cho n số   : muls.txt Quyền
+16. + Tính thương cho n số : divs.txt Nhân
+-----
+17. + Update version TODO-APP-4.0-SNAPSHOT  
+18. + Kiểm tra 1 số có phải là số chẵn không     : even.txt
+18. + Kiểm tra 1 số có phải là số lẻ không       : odd.txt   
+20. + Kiểm tra 1 số có phải là số mạnh mẽ không  : strong.txt
+21. + Kiểm tra 1 số có phải là số hoàn hảo không : perfect.txt
+
+21. + Update version TODO-APP-5.0-SNAPSHOT

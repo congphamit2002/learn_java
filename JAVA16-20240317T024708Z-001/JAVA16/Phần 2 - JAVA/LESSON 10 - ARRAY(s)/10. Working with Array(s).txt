@@ -1,0 +1,83 @@
+DEMO: Declaration
+==============================================
+Ex01: Create int[], String[], Item[] with 2 ways
++ not initial values
++ already initial values
++ interator
++ Array: is an object type => getClass
+
+Ex02: Write function to get odd, even, conditional
+from int[] => using Strategy Pattern
+
+Ex03: Create multiple dimensions array
+=> Instead: Using array of object
+
+Exercises
+==============================================
+Ex01: Give an array int[] = {1, 9, 5, 36, 12, 33};
+With k from 0 - (length-1)
++ Calculate sum of odd numbers 
++ Find max, min in one loop
+
++ Add element at index k
++ Remove element from index k
++ Update element at index k
++ Get element at index k
+
+Ex02: Reverse an array
+Input: 1 2 3 4 5
+Output: 5 4 3 2 1
+Reference: https://www.hackerrank.com/challenges/arrays-ds/problem
+
+Sorting >> selection/bubble/insertion/quick/heap/merge algorithm
+Sorting >> Arrays Manipulation.xlsx
+============================================================
+https://en.wikipedia.org/wiki/Bubble_sort
+https://commons.wikimedia.org/wiki/Category:Bubble_sort
+
+https://en.wikipedia.org/wiki/Quicksort
+https://commons.wikimedia.org/wiki/File:Quicksort-example.gif
+
+Ex01: Sorting with int manually
+int[] numbers = { 1, 5, 9, 4, 6, 11 };
++ Basic: selection/bubble/insertion/quick sort(using Java available methods)
+
+Ex02: Sorting with String, handle NULL values
+String[] sequences = { "1", "0", null, "x", "a", "b", null, "10", "2" };
+
++ Comparable / Comparator
+
+Ex03: Sorting Item by properties (id, name, price)
+Item item1 = new Item(1, "A", 10);
+Item item2 = new Item(2, "B", 20);
+Item item3 = new Item(3, "C", 30);
+Item[] items = {item1, item2, item3};
++ Comparable / Comparator
+
+
+Ex04: Introducte strange sort with Collator for CS(Case Sensitive) or CI(Case Insensitive)
+String[] text= {"B", "b", "A", "a", "Á", "á", "c", "C"};
+
+Arrays.sort(text);
+ArrayUtils.printf(text);
+		
+Collator c = Collator.getInstance();
+c.setStrength(Collator.PRIMARY);
+Arrays.sort(text, c);
+ArrayUtils.printf(text);
+		
+c.setStrength(Collator.SECONDARY);
+Arrays.sort(text, c);
+ArrayUtils.printf(text);
+		
+c.setStrength(Collator.TERTIARY);
+Arrays.sort(text, c);
+ArrayUtils.printf(text);
+		
+c.setStrength(Collator.IDENTICAL);
+Arrays.sort(text, c);
+ArrayUtils.printf(text);
+
+
+Ex05: Sparse Arrays
+Reference: https://www.hackerrank.com/challenges/sparse-arrays/problem

@@ -1,0 +1,58 @@
+Khi hoàn thành một chức năng(TASK) thì sẽ commit(save to git database) 
+để lưu lại code tại thời điểm đó
+--> Khi hoàn thành chức năng --> Tạo commit 
+1 COMMIT = 1 GIT VERSION = 1 TASK
+
+Khi mình làm 1 task, fix bug thì mình cần xác định là TASK, BUG đó được fix,thực hiện trên version nào của dự án
+Chuyển HEAD về đúng nhánh trước khi làm
+
+--> Khi bắt đầu phiên bản của dự án --> Tạo branch
+--> Dựa vào các commit thuộc nhánh để biết được version của dự án đang làm đến đâu
+1 BRANCH = 1 PROJECT VERSION
+
+Version của dự án chứa rất nhiều chức năng --> Tạo ra một nhánh để chứa tất cả các chức năng(commit) của version đó
+
+Khi mình lỡ tạo ra commit bị sai và muốn xóa commit đó thì có 2 cách
+
+CM3 - (HEAD -> master)
+CM2
+CM1
+
+* git reset --hard HEAD~n ==> Xóa commit, Xóa luôn nội dung của commit đó
+* git reset --soft HEAD~n ==> Xóa commit, Giữ lại nội dung của commit đó
+  git reset pre-commit
+
+* git branch todo-app-1.0 31dxy7
+* git branch todo-app-1.0 [HEAD]
+* git branch todo-app-1.0 master(31dxy7)
+
+* git checkout branch_name --> Đưa HEAD về BRANCH 
+* git checkout commit_hash --> Đưa HEAD về COMMIT --> detached HEAD
+
+* unmodified --> modified
+  -- rollback: git restore <file>
+* modified||untracked --> staged
+  -- move out of staged: git restore --staged <file>
+
+
+Vấn đề:
++ Không tìm thấy được commit 'Released Version 1.0' để fix bug 1.1
++ Commit không thuộc nhánh nào, không tìm thấy khi gõ git log --oneline --all
+
+
+.git: local repository
+HEAD: Con trỏ đặc biệt
+    : Có thể trỏ đến nhánh(master) --> master trỏ đến commit
+	: Có thể trỏ trực tiếp đến commit --> detached HEAD
+
+HEAD --> BRANCH(master)
+HEAD --> commit <--> detached HEAD
+HEAD: đại diện cho current version
+    : HEAD ở đâu thì code của mình ở version đó
+	
+x.y.z-SNAPSHOT: under development version
+x.y.z         : released version
+alpha         : demo version 
+
+
+		   

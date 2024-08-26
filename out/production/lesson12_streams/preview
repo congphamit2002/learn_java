@@ -1,0 +1,78 @@
+1. Functional Interface là gì
+   + Là 1 interface chứa duy nhất 1 hàm trừu tượng
+   VD: Supplier<T>, Consumer<T>, Function<T, R>
+   
+   + Developer có thể tự tạo ra custom functional interface 
+   
+   
+2. Khi nào sử dụng Functional Interface
+   + Khi mình muốn một hàm/chức năng là 1 tham số ở hàm khác
+   + --> Sử dụng trong strategy pattern
+   + strategy pattern --> strategy method
+   + strategy method --> input, output
+   ==> Interface
+   	      + strategy_method
+   return_type method_name(Interface interface) {
+       ... interface.strategy_method(....)
+   }
+   
+   
+   + Gọi method_name
+   
+   + anonymous class --> đoạn code giúp mình tạo ra một đối tượng
+   cho biến kiểu dữ liệu interface
+   
+   + anonymous class(dài) --> anonymous function(lambda expression)
+   
+   + lambda: (parameters) -> {} 
+   + --> override abstract method(no name) in function interface
+   
+   Tại sao khi dùng kiểu dữ liệu stream ta không trực tiếp lưu vào sử dụng nó luôn mà phải convert qua kiểu dữ liệu khác?
+ - Stream là tập hợp các phần tử từ 1 source (tài nguyên nào đó) và nó supports 1 tập hợp các thao tác để xử lý tiền dữ liệu
+ - Stream có thể lưu trữ liệu được, a stream provides an interface (tập hợp các giá trị của nó)
+ - Nhưng so với Collections tập trung mạnh vào cấu trúc dữ liệu (data structures) -> lưu trữ dữ liệu (storage) thì stream tập trung vào tính toán (calculate) ->  các thao tác (operation)
+ - Pipelining nhiều thao tác của stream sẽ return về chính stream đó. (cho phép các thao tác này nối nhau và hình thành luồng lớn hơn - form a larger pipeline)
+ ==> Từ pipeline ta có thể kết luận được câu hỏi trên khi sử dụng stream mỗi lần gọi các hàm như filter, map,... thì nó chỉ gộp lại với nhau (tạo thành stream pipeline) chứ chưa hề xử lý,
+ đến khi nào ta gọi 1 cái hàm mà hàm đó không còn trả về stream thì tất cả các thao tác với stream sẽ được xử lý.
+ => Stream chỉ thao tác truy cập xử lý một lần duy nhất.
+ 
+ - Internal iteration: Đối với collections thì khi code ta cần duyệt các phần tử trong collections nhưng đối với stream thì ta cần duyệt (iteration) vì stream đã hỗ trợ việc duyệt phần tử rồi.
+ 
+ Phân biệt Streams và collections
+ - Hãy tưởng tượng thì collections sẽ là một đĩa DVD album nhạc, hay là một nội dung đã được lưu trữ lại => Muốn xem lại thì ta chỉ cần mở ra xem.
+ - Streams ta có thể liên tưởng tới streaming - live stream (phát trực tiếp) chỉ có thể phát trực tiếp một lần.
+ => Từ đó ta có thể rút ra được khi lưu trữ dữ liệu với collections ta có thể dùng đi dùng lại nhiều lần, còn với streams thì chỉ có thể dùng nó một lần duy nhất.
+ => Introducing Streams -> Traversable only once
+ - Stream là internal iteration nên element.stream (thì nó tự động duyệt iteration) công việc của mình là truyền thêm code (lambda,...) không cần duyệt for
+ - Collection là external iteration nên ta cần duyệt (iteration) qua các element.
+ 
+ - Stream operations: Stream định nghĩa rất nhiều hàm bên trong như chia ra làm 2 nhóm chính:
+ + Intermediate operation (thao tác trung gian) => return stream => to form a pipeline
+ + Terminal operation (Converts the stream into a collection) Thực hiện hết tất cả các thao tác.
+ 
+-> Lazy operation: Intermediate operation sẽ không thực hiện bất kỳ những xử lý nào cho đến khi Terminal operation được gọi.
+
+Working with streams:
+- A data source: nguồn đầu vào để chuyển qua stream
+- A chain of intermediate operations: liên kết thành các thao tác trung gian (piepline)
+- A terminal operation: Là các hàm convert ra collections
+   
+   Budget Map:
+ - Để sort một cái Map thì từng phần tử trong Map đó phải ở dạng entry<Key - Value> nếu dùng TreeMap thì nó sẽ sort theo Key
+ thì yêu cầu Key phải là con của comparable.
+ --> Muốn sort theo value: Chuyển từ Map về entries Set => sau đó chuyển Set về List => sort List theo value => chuyển list về Map (LinkedHashMap)
+ 
+- Internal vs external iteration:
+
+
+ Consumer: Truyền T trả về Void
+ Supplier: Truyền rỗng trả về T
+ BiConsumer: Truyền T U trả về Void (vì nó là Map<Key, Value>)
+ Function: Truyền T trả R
+ BiFunction: Truyền 2 trả về 1 truyền T, U trả về R
+
+Nhắc lại kiến thức cũ:
+List cần phải override lại hàm equals
+Set cần phải override lại hàm hashCode, equals
+
+ 

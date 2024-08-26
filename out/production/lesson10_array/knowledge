@@ -1,0 +1,53 @@
+- Mảng là một cấu trúc dữ liệu, lưu trữ một tập các phần tử cùng kiểu dữ
+liệu và có kích thước cố định: fixed-size sequential.
+
+- Một phần tử trong mạng gồm 2 phần value (giá trị) và index (i)
+
+- Giống như kiểu dữ liệu mạng cũng có 2 loại:
+  + Mảng chứa tất cả các phần từ đều ở kiểu nguyên thủy
+  ex: double elements[]; //works but not preferred way
+  	  double[] elements; // preferred way (recommend)
+  
+  + Mảng chứa tất cả các phần tử đều ở kiểu đối tượng
+  ex: String[] elements;
+  	  Employee[] employees;
+  	  
+* Lưu ý: Khi tạo một kiểu mảng đối tượng thì giá trị ban đầu của các phần
+tử trong mảng là 'null' nếu ta set giá trị cho nó thì nó sẽ bị lỗi 
+Nullpointerexception.
+	ex: Employee[] employees;
+		employees[0].setName();
+		
+- Vì sao nên khai báo mảng theo kiểu preferred way? 
+--> Vì trong java một mảng là một kiểu dữ liệu đối tượng thì nó sẽ lưu giá
+trị ở HEAP.
+
+ex: double elements[];
+--> Mảng elements đang ở đây đnag là 1 kiểu nguyên thủy double  
+	double[] elements;
+--> Ta thấy được elements ở đây đang là 1 kiểu mảng double (kiểu đối tượng)
+vì trường hợp này elements có thể kế thức lớp object trong java
+
+Khai báo mảng:
+- dataType[] arrayRefVar = new dataType[arraySize];
+(arraySize: số lượng tối đa của mạng)
+- dataType[] arrayRefVar = {value0, value1,..., valuek};
+
+Lợi ích của việc sử dụng mảng:
++ Cho phép quản lý nhiều phần tử có cùng kiểu dữ liệu tại một thời điểm.
++ Lưu trữ các phần tử liên tiếp nhau trong ô nhớ, tránh phân mãnh ổ đĩa.
++ Tạo ra sự tối ưu trong việc quản lý bộ nhớ so với việc sử dụng nhiều biến
+cùng kiểu dữ liệu.
++ Mảng là kiểu dữ liệu đối tượng.
+--> Bộ nhớ HEAP được cấp phép cho mảng chỉ khi mảng thực sự được sử dụng.
+Do đó, bộ nhớ không bị tiêu tốn ngay khi khai báo mảng.
+
+
+
+
+
+
+
+
+
+

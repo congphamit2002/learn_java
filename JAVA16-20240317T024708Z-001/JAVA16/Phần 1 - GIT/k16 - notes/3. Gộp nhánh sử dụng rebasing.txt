@@ -1,0 +1,72 @@
+--- GIT REBASE DEMO ---
+Trường hợp A: 
+  + Gộp 2 nhánh trên một đường thẳng
+  + Gộp 2 nhánh có quan hệ cha-con
+  Ví dụ: 1 2 3(master) 4 5(feature)
+  
+  A1: Gộp nhánh cha vào con
+     --> Gộp master vào feature
+	 B1: git checkout feature
+	 B2: git rebase master
+	 --> Already up to date = Nothing to rebase
+	 
+  A2: Gộp nhánh con vào cha
+     --> Gộp nhánh feature vào nhánh master
+	 B1: git checkout master
+	 B2: git rebase feature
+	 1 2 3 4 5(master, feature)
+	 --> Fast forward
+  
+  
+Trường hợp B:
+  + Gộp 2 nhánh không nằm trên một đường thẳng(rẻ nhánh)
+  + Gộp 2 nhánh không có quan hệ cha con
+  Ví dụ: 1 2 3(master) 4 5(feature)
+             6 7 8(bug)
+  ==> Gộp bug vào feature
+  ==> diversed
+  B1: Không xuất hiện conflict
+  --> Gộp nhánh bug vào feature
+  Step 1: git checkout feature
+  Step 2: git rebase bug
+  ...........................
+  Kết quả:
+  1 2 3(master) 6 7 8(bug) 4' 5'(feature)   
+      
+  
+  
+  B2: Xuất hiện conflicts
+  --> Gộp nhánh bug vào feature
+  Step 1: git checkout feature
+  Step 2: git rebase bug
+  ...........................
+  --> conflicts
+  git status --> để xem unmerge paths
+  /*
+  First, rewinding head to replay your work on top of it...
+	Applying: Add C4
+	Using index info to reconstruct a base tree...
+	M       readme.txt
+	Falling back to patching base and 3-way merge...
+	Auto-merging readme.txt
+	CONFLICT (content): Merge conflict in readme.txt
+	error: Failed to merge in the changes.
+	hint: Use 'git am --show-current-patch' to see the failed patch
+	Patch failed at 0001 Add C4
+	Resolve all conflicts manually, mark them as resolved with
+	"git add/rm <conflicted_files>", then run "git rebase --continue".
+	You can instead skip this commit: run "git rebase --skip".
+	To abort and get back to the state before "git rebase", run "git rebase --abort".
+  */
+  1. Mở file readme.txt(unmerged path)
+  2. Fix conflicts(chọn code mình mong muốn)
+  3. ---> Chạy lại code xem đúng chưa -->
+  4. git add readme.txt(để mark resolution(đánh dấu là đã fix))
+  // git commit -m "git merge branhc X into T" (merge)
+  git rebase --continue
+  ...........................
+  ---> Có thể fix nhiều lần
+  Kết quả:
+  1 2 3(master) 6 7 8(bug) 4' 5'(feature)
+      
+  

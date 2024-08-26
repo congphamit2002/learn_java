@@ -1,0 +1,899 @@
+method: phương thức 
+attributes: thuộc tính
+instance: thể hiện, đối tượng
+variable: biến
+core OOP, SOLID, multiple thread, exception handler, transaction, deadlock, design pattern, sql, index, css responsive, react lifecycle, hook, redux
+Thêm 1 số kiến thức về system design: Monolithic, microservice, Ddd
+Thêm phần JS như async, event loop, promise, array function
+Phần http method và 1 số kỹ thuật cache, tăng performance
+
+1. Hàm main trong java, argument:
+Hàm main trong java là nơi bắt đầu và kết thúc của một chương trình
+
+Trong Java, hàm main được sử dụng làm điểm bắt đầu của mọi chương trình. Hàm main nhận một mảng các chuỗi (String) làm đối số (arguments).
+
+2. access modifier:
+Trong Java, có bốn từ khóa quyết định việc truy cập (access) của các thành phần (fields, methods, classes, constructors) trong chương trình. Các từ khóa này được gọi là "Access Modifiers".
+Private: class
+Public: Project
+Default: Package
+Protected: Package & external Package with sub class in Inheritance.
+Default - Interface: Public
+Default - Enum: Private
+-
+==> Khi một thuộc tính không được khai báo access modifier hoặc access modifier là protected thì nó được đóng gói trong phạm vi package
+
+3. Tham trị và tham chiếu
+Tham trị (passed by value)
+- Kiểu này dành cho các biến, các tham số khai báo kiểu dữ liệu cơ bản nguyên thủy gồm: byte, short, int, long, float, double, char.
+- Nếu chúng ta gọi một method và truyền một giá trị cho phương thức đó được gọi là truyền giá trị. Việc thay đổi giá trị chỉ có hiệu lực trong phương thức (method) được gọi, không có hiệu lực bên ngoài phương thức đó. Vì nó chỉ tác động đển bản sao giá trị chứ không phải là địa chỉ nó trong bộ nhớ. 
+(Khi bạn truyền tham trị, giá trị gốc của biến gốc không bị thay đổi nếu có bất kỳ sự thay đổi nào trong phương thức).
+
+Tham chiếu (Passed by reference)
+- Khi chúng ta gọi một phương thức và truyền tham chiếu cho phương thức đó được gọi là truyền tham chiếu.
+- Việc thay đổi giá trị của biến tham chiếu bên trong phương thức làm thay đổi giá trị gốc của nó.
+- Trong java, có thể dùng biến tham chiếu vì nó lưu địa chỉ đối tượng được lưu trong bộ nhớ Heap nhưng biến tham chiếu được lưu trong bộ nhớ stack.
+
+4. garbage collection process
+Trong java garbage có nghĩa là các đối tượng không được tham chiếu.
+Nếu như các ngôn ngữ pháp như C thì sẽ có hàm free(), C++ thì là hàm delete(), thì trong java nó được tự động. 
+
+- Ưu điểm: 
+Làm cho memory hoạt động hiệu quả hơn vì đối tượng không được unreferenced được xóa bỏ tại heap
+Nó được tự động trong JVM chúng ta không cần phải tạo ra
+
+Làm thế nào để 1 biến là unreferenced (Xem lại tính đa hình của object sẽ hiểu được cách không còn tham chiếu.)
+- By nulling the reference
+ex: Employee e=new Employee();  
+e=null;  
+
+- By assigning a reference to another
+ex: Employee e1=new Employee();  
+Employee e2=new Employee();  
+e1=e2;//now the first object referred by e1 is available for garbage collection  
+
+- By anonymous object etc
+ex: new Employee();  
+
+
+- System.gc() và finalize():
+'System.gc()' là một phương thức Java có thể được sử dụng để yêu cầu JVM thực hiện garbage collection, nhưng không có đảm bảo rằng nó sẽ được thực hiện ngay lập tức. 
+==> Dùng khi runtime
+Phương thức 'finalize()' được gọi trước khi một đối tượng bị thu hồi bởi garbage collector. Tuy nhiên, không nên phụ thuộc vào 'finalize()' để giải phóng tài nguyên vì không có đảm bảo rằng nó sẽ được gọi ngay lập tức hoặc một cách đáng tin cậy.
+
+5. HEAP, STACK so sánh
+HEAP: Giá trị của kiểu đối tượng được lưu trữ ở ô nhớ HEAP.
+- Đặc Điểm Chính: Là nơi lưu trữ các đối tượng và dữ liệu động được cấp phát trong quá trình thực thi chương trình. Đối tượng trong heap tồn tại trong thời gian lâu dài và có thể được truy cập từ nhiều phương thức và đối tượng khác nhau.
+- Quản Lý Bộ Nhớ: Quản lý bộ nhớ tự động thông qua garbage collection để thu hồi bộ nhớ của các đối tượng không sử dụng nữa.
+- Đối Tượng và Dữ Liệu: Là nơi lưu trữ đối tượng và dữ liệu có tính tồn tại lâu dài, chúng có thể được chia sẻ và truy cập từ nhiều đối tượng và phương thức khác nhau.
+- Sự Linh Hoạt: Có tính linh hoạt cao, nhưng việc quản lý bộ nhớ phức tạp hơn và có thể ảnh hưởng đến hiệu suất.
+- Khả Năng Xảy Ra Rò Rỉ Bộ Nhớ: Có thể gặp vấn đề về rò rỉ bộ nhớ nếu không giải phóng đối tượng đúng cách hoặc không sử dụng garbage collection.
+- Kích Thước: Thường lớn hơn và có thể mở rộng.
+
+STACK: BIẾN - BIẾN(THAM CHIẾU) ĐƯỢC LƯU TRỮ Ở STACK (ĐỐI TƯỢNG + NGUYÊN THỦY)
+Giá trị của kiểu nguyên thủy được lưu trữ ở vùng nhớ STACK.
+- Đặc Điểm Chính: Là nơi lưu trữ các biến cục bộ, tham số phương thức và giữa các giá trị trả về từ phương thức. Stack tồn tại trong thời gian ngắn hạn và bị giải phóng khi một phương thức hoặc khối mã kết thúc.
+- Quản Lý Bộ Nhớ: Quản lý bộ nhớ một cách đơn giản bằng cách giải phóng các frame (khung) của stack khi phương thức hoặc khối mã kết thúc.
+- Đối Tượng và Dữ Liệu: Chủ yếu lưu trữ các biến cục bộ và giữa các giá trị trả về từ phương thức.
+- Sự Linh Hoạt: Đơn giản và nhanh chóng, nhưng có hạn chế về tính linh hoạt, vì các biến cục bộ chỉ tồn tại trong phạm vi của phương thức.
+Khả Năng Xảy Ra Rò Rỉ Bộ Nhớ
+- Khả Năng Xảy Ra Rò Rỉ Bộ Nhớ: Rò rỉ bộ nhớ ít có khả năng xảy ra, vì bộ nhớ được giải phóng tự động khi phương thức kết thúc.
+- Kích Thước: Thường có kích thước nhỏ hơn và có giới hạn.
+
+6. daemon thread
+- Trong Java, có hai loại thread chính: user thread và daemon thread. Một đối tượng thread có thể được đặt làm daemon thread để chỉ định rằng nó là một thread chạy ở nền và sẽ tự động kết thúc khi không còn thread user nào còn sống. (Chúng chỉ khác nhau ở cách thức ngừng hoạt động. Trong một chương trình các luồng thông thường và luồng Daemon chạy song song với nhau. Khi tất cả các luồng thông thường kết thúc, mọi luồng Daemon cũng sẽ bị kết thúc theo bất kể nó đang làm việc gì.)
+
+- Khởi Tạo Daemon Thread:
+Để đặt một thread làm daemon, bạn có thể sử dụng phương thức setDaemon(true) trên đối tượng thread trước khi nó được bắt đầu.
+
+ex: Thread daemonThread = new Thread(new MyRunnable());
+daemonThread.setDaemon(true);
+daemonThread.start();
+
+- Sử dụng setDaemon(boolean) để xác định một luồng là Daemon hoặc không. Chú ý, bạn chỉ có thể gọi hàm setDeamon(boolean) khi thread chưa được chạy. Điều đó có nghĩa là khi thread đã chạy bạn không thể chuyển luồng từ non-daemon sang daemon và ngược lại. Khi bạn cố gắng thay đổi trạng thái của luồng, một ngoại lệ IllegalThreadStateException được ném ra và luồng kết thúc xử lý. Khi một luồng mới được tạo ra, nó được thừa hưởng đặc tính daemon từ luồng cha.  Như vậy khi bạn tạo một luồng trong hàm main của 1 class nó vốn là luồng non-daemon , vì vậy thread tạo ra mặc định cũng là non-daemon. Như vậy nếu bạn tạo một luồng mới trong một luồng Daemon, mặc định nó cũng sẽ là Daemon.
+
+- Công dụng: Một trong các luồng Deamon quan trọng của Java đó là luồng gom rác, nghĩa là gom các tài nguyên không còn sử dụng để giải phóng bộ nhớ. Khi tất cả các luồng người dùng không còn hoạt động nữa luồng gom rác cũng bị dừng theo.
+
+ex: Tạo một luồng WorkingThread
+ 
+package com.gpcoder.daemonthread;
+ 
+public class WorkingThread implements Runnable {
+ 
+    @Override
+    public void run() {
+        while (true) {
+            processSomething();
+        }
+    }
+ 
+    private void processSomething() {
+        try {
+            System.out.println("Processing working thread");
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+Chương trình Non-Daemon Thread
+package com.gpcoder.daemonthread;
+ 
+public class NonDaemonThreadTest {
+    public static void main(String[] args) throws InterruptedException {
+        Thread dt = new Thread(new WorkingThread(), "My Non-Daemon Thread");
+        dt.start();
+ 
+        // continue program
+        Thread.sleep(3000);
+        System.out.println(">><< Finishing main program");
+    }
+}
+
+Kết quả thực thi
+Processing working thread
+Processing working thread
+Processing working thread
+Processing working thread
+Processing working thread
+Processing working thread
+>><< Finishing main program
+Processing working thread
+Processing working thread
+Processing working thread
+....
+
+- Như bạn thấy luồng Non-DaemonThread chạy song song với MainThread. Khi MainThread kết thúc thì luồng Non-DaemonThread vẫn còn tiếp tục xử lý cho đến khi hoàn thành.
+
+Chương trình Daemon Thread (khởi tạo daemon thread bằng cách setDaemon)
+package com.gpcoder.daemonthread;
+ 
+public class DaemonThreadTest {
+ 
+    public static void main(String[] args) throws InterruptedException {
+        Thread dt = new Thread(new WorkingThread(), "My Daemon Thread");
+        dt.setDaemon(true);
+        dt.start();
+ 
+        // continue program
+        Thread.sleep(3000);
+        System.out.println(">><< Finishing main program");
+    }
+}
+
+Kết quả thực thi: 
+Processing working thread
+Processing working thread
+Processing working thread
+Processing working thread
+Processing working thread
+Processing working thread
+>><< Finishing main program
+
+- Như bạn thấy DaemonThread chạy song song với MainThread. Khi MainThread kết thúc thì tất cả DaemonThread cũng kết thúc.
+
+7. So sánh jdk và jre 
+
+JDK (Java Development Kit) >> Operating system (windows) (chứa JRE)
+
+- Chức Năng Chính: JDK là bộ công cụ phát triển Java chính thức của Oracle. Nó cung cấp một bộ đầy đủ các công cụ và tài nguyên để phát triển, biên dịch và triển khai ứng dụng Java.
+
+- Các Thành Phần Chính:
+
++ Java Compiler: Chuyển đổi mã nguồn Java thành bytecode.
++ Java Virtual Machine (JVM): Thực thi bytecode trên máy ảo Java.
++ Java Runtime Libraries: Các thư viện hỗ trợ chạy các ứng dụng Java.
++ Development Tools: Các công cụ hỗ trợ phát triển như debugger, profiler, và các công cụ khác.
++ Header Files và Static Libraries: Cần thiết khi phát triển native methods và native libraries.
+- Sử Dụng Đối Tượng: JDK được sử dụng chủ yếu bởi những người phát triển ứng dụng Java để xây dựng và triển khai ứng dụng.
+
+JRE (Java Runtime Environment):
+
+- Chức Năng Chính: JRE là môi trường thực thi Java, cung cấp môi trường chạy cho các ứng dụng Java. Nó bao gồm một bản sao của JVM và các thư viện thực thi cần thiết để chạy ứng dụng Java.
+
+- Các Thành Phần Chính:
+
++ Java Virtual Machine (JVM): Thực thi bytecode Java.
++ Java Runtime Libraries: Các thư viện hỗ trợ chạy ứng dụng Java.
++ Java Plugin: Cho phép chạy ứng dụng Java trong các trình duyệt web.
++ Java Web Start: Cho phép triển khai và khởi chạy ứng dụng Java từ trình duyệt web.
+
+- Sử Dụng Đối Tượng: JRE được sử dụng bởi người dùng cuối để chạy các ứng dụng Java mà không cần phải phát triển hoặc biên dịch chúng.
+
+- Quan Hệ Giữa JDK và JRE:
+
++ JDK bao gồm tất cả các thành phần của JRE, vì vậy nếu bạn có JDK, bạn cũng có thể chạy các ứng dụng Java.
++ JRE là một phần con của JDK và được cung cấp riêng lẻ để người dùng cuối.
+
+- Cần Thiết Khi Phát Triển và Chạy Ứng Dụng:
+
+JDK: Cần thiết khi bạn muốn phát triển và biên dịch ứng dụng Java.
+JRE: Đủ để chạy các ứng dụng Java đã được biên dịch.
+JDK là bộ công cụ dành cho người phát triển, còn JRE là môi trường thực thi dành cho người dùng cuối.
+
+8. Memory Allocations available in Java
+- Memory Allocations available:
+Trong Java, quá trình quản lý bộ nhớ được thực hiện tự động thông qua Java Virtual Machine (JVM). JVM quản lý các phần khác nhau của bộ nhớ để chứa dữ liệu và đối tượng Java.
+
+- Heap Memory: 
+Heap là nơi lưu trữ các đối tượng và dữ liệu động. Cả các đối tượng Java được cấp phát động thông qua 'new' keyword đều được đặt trong heap memory. Heap memory được chia thành các khu vực như Eden Space, Survivor Space, và Old Generation.
+
+- Stack Memory:
+Stack là nơi lưu trữ các biến cục bộ và giữa các giá trị trả về từ phương thức.
+Mỗi thread trong chương trình Java có một stack riêng biệt, giúp quản lý các biến cục bộ và gọi phương thức.
+
+- Method Area (PermGen trong Java 7, Metaspace trong Java 8 trở đi):
+Thường được sử dụng để lưu trữ metadata của class và các phần khác nhau của code được chia sẻ giữa tất cả các thread.
+
+- PC Registers:
+PC (Program Counter) Registers chứa địa chỉ của các câu lệnh đang thực thi trong phương thức.
+
+- Native Method Stacks:
+Chứa thông tin về các native methods (phương thức được triển khai bằng các ngôn ngữ khác ngoài Java).
+
+- Direct Memory:
+Là một khu vực bộ nhớ không thuộc quản lý của JVM, được sử dụng cho các thao tác đọc/ghi nhanh chóng và trực tiếp thông qua Java NIO (New I/O) hoặc các thư viện native.
+
+- Garbage Collection:
+Là một quá trình tự động thu hồi bộ nhớ không sử dụng, chủ yếu tập trung vào việc thu hồi bộ nhớ heap.
+
+- OutOfMemoryError:
+Là một loại ngoại lệ mà JVM ném ra khi không còn đủ bộ nhớ để cấp phát cho đối tượng mới. Điều này thường xảy ra khi có quá nhiều đối tượng được tạo và không được giải phóng bộ nhớ.
+Các kích thước và cách các phần bộ nhớ được quản lý có thể thay đổi tùy thuộc vào phiên bản cụ thể của JVM và cấu hình chương trình Java.
+
+9. Quan hệ class trong java: aggregation, composition phân biệt
+
+- Liên kết (Association):
+Liên kết (Association) là mối quan hệ giữa hai lớp riêng biệt được thiết lập thông qua các Đối tượng của chúng. Liên kết có thể là một-một, một-nhiều, nhiều-một, nhiều-nhiều. Trong lập trình hướng đối tượng, một đối tượng giao tiếp với các đối tượng khác để sử dụng chức năng và dịch vụ được cung cấp bởi đối tượng đó. Hợp thành (Composition) và kết tập (Aggregation) là hai hình thức liên kết.
+
+- Tích hợp / Kết tập (Aggregation):
++ Kết tập là một dạng đặc biệt của Asociation trong đó:
+Kết tập đại diện cho mối quan hệ Has-A (có một).
+Kết tập là unidirectional association tức là mối quan hệ một chiều. 
+Ví dụ, khoa có thể có sinh viên nhưng ngược lại (sinh viên có thể có khoa) là không thể và do đó về bản chất là một hướng.
+Trong kết tập, cả hai thực thể có thể tồn tại riêng lẻ , điều đó có nghĩa là kết thúc một thực thể sẽ không ảnh hưởng đến thực thể khác
+
++ Aggregation là một quan hệ "has-a" giữa hai class, trong đó một class (được gọi là "whole") có một hoặc nhiều đối tượng của class khác (được gọi là "part").
+Mối quan hệ giữa whole và part không làm thay đổi tính chất của part khi whole bị hủy.
+Ví dụ: Một lớp Library có thể có nhiều đối tượng Book, nhưng việc hủy một Library không làm ảnh hưởng đến tính toàn vẹn của các Book nằm trong đó.
+
+* Khi nào chúng ta sử dụng Kết tập (Aggregation) ? ==> Tái sử dụng code được thực hiện tốt nhất bằng kết tập.
+
+- Tổ hợp / Hợp thành (Composition) 
+Hợp thành (Composition) là một trường hợp đặc biệt của Kết tập (Aggregation) trong đó hai thực thể phụ thuộc nhiều vào nhau.
+
+Hợp thành đại diện cho quan hệ part -of (là một phần).
+Trong hợp thành, cả hai thực thể đều phụ thuộc vào nhau.
+Khi có một mối quan hệ hợp thành giữa hai thực thể, đối tượng composed không thể tồn tại mà không có thực thể khác.
+
+Composition là một loại quan hệ mạnh hơn, trong đó một class (whole) chứa một class khác (part), và tồn tại một mối quan hệ mạnh giữa chúng. Điều này có nghĩa là nếu whole bị hủy, part cũng sẽ bị hủy theo.
+Composition thường được biểu thị bằng cách nhúng đối tượng khác trong một class và sử dụng nó trong quá trình khởi tạo.
+
+Trong ví dụ trên, mối quan hệ giữa Car và Engine là một mối quan hệ composition, vì một chiếc xe không thể tồn tại mà không có động cơ.
+
+- Tóm tắt:
+
+Aggregation là một mối quan hệ "has-a" giữa các class, không có mối quan hệ mạnh giữa whole và part.
+Composition là một mối quan hệ mạnh hơn, trong đó part tồn tại nhờ vào whole và sẽ bị hủy nếu whole bị hủy.
+Composition thường được biểu diễn bằng cách nhúng đối tượng trong một class và sử dụng nó trong quá trình khởi tạo.
+
+Kết tập (Aggregation) vs Hợp thành (Composition)
+
+- Sự phụ thuộc: 
+Kết tập ngụ ý một mối quan hệ trong con có thể tồn tại độc lập với cha mẹ. 
+Ví dụ: Ngân hàng và Nhân viên, xóa Ngân hàng thì Nhân viên vẫn tồn tại. 
+
+Hợp thành ngụ ý một mối quan hệ trong đó con không thể tồn tại độc lập với cha mẹ. 
+Ví dụ: Con người và trái tim, trái tim không tồn tại tách biệt với con người. Con người chết thì trái tim cũng chết
+
+Kiểu của mối quan hệ: quan hệ Kết tập là “has-a” còn quan hệ Hợp thành là “part-of”
+Loại liên kết: Hợp thành là một Liên kết mạnh trong khi Kết tập là một Liên kết yếu .
+
+10. Marker interface
+Trong Java, một "Marker Interface" là một interface không có bất kỳ phương thức nào, chỉ đơn thuần là đánh dấu (marker) cho một kiểu cụ thể hoặc một tình trạng cụ thể. Marker interfaces không chứa bất kỳ phương thức nào để thực hiện, chỉ đơn giản là để làm cho các đối tượng implement nó được đánh dấu với một thông tin cụ thể.
+Ví dụ phổ biến về marker interface trong Java là Serializable. Interface này được sử dụng để đánh dấu rằng một lớp có thể được chuyển đổi thành dạng byte để có thể lưu trữ hoặc truyền đi qua mạng.
+Marker Interface là một interface không có bất kỳ phương thức và thuộc tích nào bên trong nó. Nó cung cấp thông tin run-time type về object, vì vậy compiler và JVM có thêm thông tin về đối tượng thể thực hiện một số hoạt động hữu ích.
+
+Một marker interface còn được gọi là một tagging interface
+
+Dưới đây là một ví dụ về việc sử dụng marker interface:
+import java.io.Serializable;
+
+// Marker Interface
+interface MyMarkerInterface extends Serializable {
+    // Không có phương thức
+}
+
+// Lớp sử dụng marker interface
+class MyClass implements MyMarkerInterface {
+    private int data;
+
+    public MyClass(int data) {
+        this.data = data;
+    }
+
+    public int getData() {
+        return data;
+    }
+}
+
+public class MarkerInterfaceExample {
+    public static void main(String[] args) {
+        MyClass myObject = new MyClass(42);
+
+        // Kiểm tra xem đối tượng có implement MyMarkerInterface không
+        if (myObject instanceof MyMarkerInterface) {
+            System.out.println("myObject implements MyMarkerInterface");
+        } else {
+            System.out.println("myObject does not implement MyMarkerInterface");
+        }
+    }
+}
+
+Trong ví dụ trên, MyMarkerInterface là một marker interface, và MyClass là một lớp sử dụng nó. Khi kiểm tra bằng instanceof, chúng ta có thể xác định xem một đối tượng có implement marker interface hay không.
+
+Lưu ý rằng từ Java 8 trở đi, marker interface cũng có thể được thay thế bằng các annotation và các cơ chế khác trong Java, nhưng marker interface vẫn được sử dụng trong một số trường hợp.
+
+Có hai mục đích thiết kế chủ yếu của marker interface là:
+
+- Tạo một cha chung: Như với EventListener interface, mà được kế thừa bởi hàng tá các interface khác trong Java API, bạn có thể sử dụng một tagging interface để tạo một cha chung cho một nhóm interface. 
+Ví dụ, khi một interface kế thừa EventListener, thì JVM biết rằng interface cụ thể này đang được sử dụng trong một event.
+
+- Thêm một kiểu dữ liệu tới một class: Đó là khái niệm tagging. Một class mà triển khai một tagging interface không cần định nghĩa bất kỳ phương thức nào, nhưng class trở thành một kiểu interface thông qua tính đa hình (polymorphism).
+
+- Thực hiện một số pre-processing trên các class, đặc biệt hữu dụng để phát triển các API và Framework giống như Sping, Struts.
+
+- Giúp cho code coverage và build tools để find bug dựa trên một behavior cụ thể của marker interface.
+
+11. Object Cloning
+Trong Java, Object cloning là quá trình tạo ra một bản sao của một đối tượng hiện tại. Java cung cấp một giao diện Cloneable và phương thức 'clone()' để hỗ trợ việc sao chép đối tượng.
+
+Có hai cách để thực hiện Object cloning trong Java:
+
+- Shallow Copy (Sao chép nông):
+
+Trong sao chép nông, chỉ đối tượng chính được sao chép, còn các thuộc tính của đối tượng (nếu là reference type) vẫn trỏ đến cùng một địa chỉ như đối tượng gốc.
+Để thực hiện sao chép nông, đối tượng cần implement Cloneable interface và ghi đè phương thức 'clone()'.
+ex:  @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+
+- Deep Copy (Sao chép sâu):
+
+Trong sao chép sâu, cả đối tượng chính và các thuộc tính của nó đều được sao chép. Điều này đảm bảo rằng đối tượng mới không chia sẻ bất kỳ tham chiếu nào với đối tượng gốc.
+Để thực hiện sao chép sâu, cả đối tượng và các đối tượng chứa bên trong cần implement Cloneable interface và ghi đè phương thức clone().
+
+ex: 
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        DeepCopyExample cloned = (DeepCopyExample) super.clone();
+        cloned.obj = (SomeObject) obj.clone(); // Deep copy for the contained object
+        return cloned;
+    }
+
+==> Tổng hợp lời sáo rỗng: 
+- Shallow Copy: copy địa chỉ tại ô nhớ heap của valuable original rồi tạo 1 valuable copy tại stack trỏ tới heap của valuable original (pass by reference) 
+- Deep Copy: Tạo ra ô nhớ heap mới và ô nhớ stack mới mà không liên quan tới valuable original. 
+
+12. Wrapper Classes
+Wrapper Class là các class giúp "đóng gói" các kiểu dữ liệu nguyên thủy thành các kiểu dữ liệu đối tượng (Boolean, Character, Byte, Short, Integer, Long, Float, Double).
+==> Sử dụng phương thức đã được chuẩn bị cho class đó.
+Các kiểu dữ liệu cơ bản như int, float, double, char, và boolean không phải là đối tượng và không thể tham gia vào các hoạt động như thêm, trừ, so sánh, hoặc sử dụng trong các cấu trúc dữ liệu như Collection. Wrapper classes giúp chuyển đổi giữa các kiểu dữ liệu cơ bản và đối tượng, và cho phép sử dụng chúng trong ngữ cảnh yêu cầu đối tượng.
+ex: int primitiveInt = 10;
+Integer wrappedInt = Integer.valueOf(primitiveInt);
+
+13. Singleton Class
+- Singleton là một mẫu thiết kế (design pattern) trong lập trình, mà mục đích là đảm bảo rằng một lớp chỉ có duy nhất một đối tượng và cung cấp một điểm truy cập toàn cục đến nó. Singleton thường được sử dụng khi chỉ có một thể hiện duy nhất của một lớp được yêu cầu để kiểm soát hành vi của một tài nguyên chung (ví dụ: kết nối database, thiết bị nhập/xuất).
+Dưới đây là cách triển khai một singleton class trong Java:
+public class Singleton {
+    // Biến tĩnh để lưu trữ thể hiện duy nhất của lớp
+    private static Singleton instance;
+
+    // Phương thức private để ngăn chặn việc tạo thêm thể hiện
+    private Singleton() {
+        // Khởi tạo các tài nguyên của singleton
+    }
+
+    // Phương thức public để trả về thể hiện duy nhất của lớp
+    public static Singleton getInstance() {
+        if (instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+
+    // Các phương thức và thuộc tính khác của lớp
+}
+
+Trong triển khai trên: Biến instance là biến tĩnh để lưu trữ thể hiện duy nhất của lớp.
+Phương thức khởi tạo Singleton được đặt là private để ngăn chặn việc tạo thêm thể hiện từ bên ngoài lớp.
+Phương thức getInstance() kiểm tra nếu instance là null, thì nó tạo một thể hiện mới và trả về nó. Nếu đã có một thể hiện, phương thức sẽ trả về thể hiện đó.
+Một số cách khác để triển khai Singleton pattern bao gồm sử dụng khối synchronized trong phương thức getInstance() để đảm bảo đồng bộ hóa khi có nhiều thread cùng truy cập, hoặc sử dụng khai báo đối tượng ngay từ đầu (Eager Initialization) để tránh vấn đề đồng bộ hóa.
+
+ex: public class Singleton {
+    private static final Singleton instance = new Singleton();
+
+    private Singleton() {
+        // Khởi tạo các tài nguyên của singleton
+    }
+
+    public static Singleton getInstance() {
+        return instance;
+    }
+
+    // Các phương thức và thuộc tính khác của lớp
+}
+Đối với ứng dụng đa luồng, triển khai Singleton có thể đòi hỏi xử lý đồng bộ hóa để đảm bảo an toàn khi nhiều thread truy cập.
+
+- Đôi khi, trong quá trình phân tích thiết kế một hệ thống, chúng ta mong muốn có những đối tượng cần tồn tại duy nhất và có thể truy xuất mọi lúc mọi nơi. Làm thế nào để hiện thực được một đối tượng như thế khi xây dựng mã nguồn? Chúng ta có thể nghĩ tới việc sử dụng một biến toàn cục (global variable : public static final). Tuy nhiên, việc sử dụng biến toàn cục nó phá vỡ quy tắc của OOP (encapsulation). Để giải bài toán trên, người ta hướng đến một giải pháp là sử dụng Singleton pattern.
+
+- Singleton là 1 trong 5 design pattern của nhóm Creational Design Pattern.
+
+- Singleton đảm bảo chỉ duy nhất một thể hiện (instance) được tạo ra và nó sẽ cung cấp cho bạn một method để có thể truy xuất được thể hiện duy nhất đó mọi lúc mọi nơi trong chương trình.
+
+- Sử dụng Singleton khi chúng ta muốn:
+
+Đảm bảo rằng chỉ có một instance của lớp.
+Việc quản lý việc truy cập tốt hơn vì chỉ có một thể hiện duy nhất.
+Có thể quản lý số lượng thể hiện của một lớp trong giớn hạn chỉ định.
+
+- Lưu ý: Đối với ứng dụng đa luồng, triển khai Singleton có thể đòi hỏi xử lý đồng bộ hóa để đảm bảo an toàn khi nhiều thread truy cập.
+
+Quy tắt:
+private constructor để hạn chế truy cập từ class bên ngoài.
+Đặt private static final variable đảm bảo biến chỉ được khởi tạo trong class.
+Có một method public static để return instance được khởi tạo ở trên.
+
+14. Phân biệt instance và local variables.
+Instance Variables:
+
+- Đặc Điểm: Còn được gọi là thuộc tính của đối tượng.
+Được khai báo bên trong một lớp nhưng bên ngoài bất kỳ phương thức nào.
+Mỗi đối tượng của lớp có một bản sao riêng của các instance variable.
+Tồn tại trong thời gian sống của đối tượng và được khởi tạo mặc định.
+ex: public class Example {
+    // Instance variable
+    private int instanceVar;
+
+    public void setInstanceVar(int value) {
+        this.instanceVar = value;
+    }
+}
+
+Local Variables:
+
+- Đặc Điểm: Được khai báo bên trong một phương thức, constructor, hoặc khối mã.
+Chỉ tồn tại trong phạm vi của phương thức, constructor, hoặc khối mã mà chúng được khai báo.
+Không được khởi tạo mặc định và cần được gán giá trị trước khi sử dụng.
+Không thể truy cập từ bên ngoài phương thức, constructor, hoặc khối mã nơi chúng được khai báo.
+ex: public class Example {
+    public void exampleMethod() {
+        // Local variable
+        int localVar = 10;
+        System.out.println(localVar);
+    }
+}
+
+Tóm Tắt:
+
+- Instance Variables: Thuộc tính của đối tượng, tồn tại trong thời gian sống của đối tượng, và được khai báo bên trong lớp nhưng bên ngoài các phương thức.
+
+- Local Variables: Được khai báo bên trong phương thức, constructor, hoặc khối mã và chỉ tồn tại trong phạm vi của nơi chúng được khai báo. Cần được gán giá trị trước khi sử dụng và không thể truy cập từ bên ngoài nơi chúng được khai báo.
+
+15. Java String Pool
+- String pool là một vùng nhớ đặc biệt nằm trong vùng nhớ Heap (Heap memory), dùng để lưu trữ các biến được khai báo theo kiểu String.
+- String pool giúp tối ưu hoá việc lưu trữ và sử dụng vùng nhớ khi khai báo biến String, giúp hạn chế tình trạng tràn bộ nhớ Java Heap Space.
+
+- String là một immutable class. Vậy immutable class là gì ? Immutable class là là một lớp bất biến, các thuộc tính của nó không bao giờ bị thay đổi và chỉ có thể thiết lập lúc khởi tạo.
+
+- Biến khai báo theo kiểu String khi được tạo ra sẽ được lưu vào String Pool.
+- Có 2 cách để khai báo biến kiểu String:
+C1: String value = "abc"; --> Tạo vùng nhớ tại String Pool
+C2: String value = new String("abc"); --> Tạo vùng nhớ ở HEAP
+
+- So sánh String
+Có 2 cách so sánh string: sử dụng toán tử == và sử dụng phương thức equals().
+Toán tử == so sánh sự tham chiếu của đối tượng, sự giống nhau về vùng nhớ. Vì thế, nếu 2 đối tượng string a và b cùng tham chiếu đến một literal trong string pool, hoặc cùng tham chiếu đến một object trong vùng nhớ heap thì a == b sẽ trả về true. Ngược lại, sẽ trả về false.
+Phương thức equals() được override trong lớp String. Nó kiểm tra giá trị của chuỗi kí tự lưu trữ trong string object. Vì thế, nếu a và b cùng chứa chuỗi kí tự như nhau thì a.equals(b) luôn trả về true, bất kể chúng có tham chiếu tới đâu đi nữa.
+
+16. Nên sử dụng String hay String buffer khi có nhiều dữ liệu cần được cập nhật, tại sao?
+Khi có nhiều dữ liệu cần được cập nhật, quyết định giữa việc sử dụng String hay StringBuffer (hoặc StringBuilder trong môi trường không đòi hỏi tính toàn vẹn) trong Java phụ thuộc vào tính chất của dữ liệu và yêu cầu hiệu suất của ứng dụng.
+String:
+String trong Java là không thể thay đổi (immutable), có nghĩa là một khi đã tạo ra một đối tượng String, giá trị của nó không thể thay đổi.
+Mọi lần thay đổi trên String đều tạo ra một đối tượng String mới.
+ex: String str = "Hello";
+    str += " World";
+Trong ví dụ trên, mỗi lần thực hiện phép cộng chuỗi, một đối tượng String mới được tạo ra.
+
+StringBuffer và StringBuilder:
+
+StringBuffer và StringBuilder là mutable, có nghĩa là chúng có thể thay đổi nội dung của đối tượng mà không tạo ra đối tượng mới.
+StringBuffer được thiết kế để làm việc hiệu quả trong môi trường đa luồng, trong khi StringBuilder được thiết kế cho hiệu suất cao hơn nhưng không an toàn cho đa luồng.
+Sử dụng StringBuffer khi đồng thời có nhiều luồng truy cập và có sự cần thiết đối với tính toàn vẹn của dữ liệu.
+ex: StringBuffer stringBuffer = new StringBuffer("Hello");
+    stringBuffer.append(" World");
+Trong ví dụ trên, StringBuffer cho phép thay đổi trực tiếp trên nội dung của nó.
+
+Lựa Chọn:
+
+Nếu dữ liệu không thay đổi thường xuyên và tính toàn vẹn của dữ liệu là quan trọng, sử dụng String để đảm bảo tính không thay đổi của dữ liệu.
+Nếu có nhiều thay đổi dữ liệu và hiệu suất là ưu tiên, sử dụng StringBuffer trong môi trường đa luồng hoặc StringBuilder trong môi trường không đòi hỏi tính toàn vẹn.
+Lưu ý rằng từ Java 5 trở đi, compiler có thể tự động chuyển đổi chuỗi cộng bằng phép + thành sử dụng StringBuilder, do đó, sự chênh lệch về hiệu suất không còn quá lớn như trước đây.
+
+
+17. Exception là gì, điều gì xảy ra với chương trình khi không xứ lý exception.
+Các loại lỗi chính thường gặp:
+- Lỗi biên dịch - Compile time
+- Lỗi thực thi - Runtime time
+	+ Lỗi logic
+- Lỗi ngoại lệ - Exception
+	+ Compile - Exception >> Checked Exception -IOException
+	+ Runtime - Exception >> Unchecked Exception - ArithmeticException, NPE
+Mục đích: Chương trình có thể tiếp tục thực thi xảy ra ngoại lệ
++ In ra thông tin lỗi
++ Xử lý lỗi
+* Cách 1: Tiền xử lý (validate) để không xảy ra ngoại lệ
+* Cách 2: Sử dụng khối try catch để bắt ngoại lệ
+* Cách 3: Sử dụng throw, throws để ném ngoại lệ
+
+==> Sau khi thực thi xong chương trình java sẽ có sẵn garbage collector để xử lý các value không được tham chiếu trên ô nhớ heap, nếu không xử lý ngoại lệ exception thì chương trình sẽ bị ngắt và không thể xóa các value dư thừa đó. (unuse memory)
+
+18. Khác nhau giữa khởi tạo String với literal String và sử dụng new().
+
+- Literal String: Khi bạn khởi tạo một đối tượng String bằng cách sử dụng literal (chuỗi trực tiếp), Java sẽ kiểm tra xem có chuỗi tương tự nào trong String Pool (khu vực trong bộ nhớ Heap) không. Nếu có, đối tượng mới sẽ được tạo ra bằng cách chỉ đơn giản tham chiếu đến đối tượng đã tồn tại trong String Pool.
+
+ex: String str1 = "Hello"; // Sử dụng literal String
+String str2 = "Hello"; // Tham chiếu đến chuỗi đã tồn tại trong String Pool
+==> Trong ví dụ trên, str1 và str2 tham chiếu đến cùng một đối tượng chuỗi trong String Pool với giá trị "Hello".
+
+- Sử dụng new() Keyword: Khi sử dụng từ khóa new(), Java sẽ tạo ra một đối tượng String mới trong vùng nhớ Heap, ngay cả khi có một chuỗi giống trong String Pool.
+
+ex: String str3 = new String("Hello"); // Sử dụng new()
+String str4 = new String("Hello"); // Tạo ra một đối tượng mới trong Heap
+==> Trong ví dụ trên, str3 và str4 tham chiếu đến hai đối tượng chuỗi khác nhau trong vùng nhớ Heap, ngay cả khi giá trị của chúng giống nhau.
+
+Khác nhau: 
+- Sử dụng literal String là phổ biến và thường được ưu tiên do nó tạo ra mã nguồn đơn giản hơn và tận dụng được tính chất pooling của chuỗi.
+
+- Sử dụng new() để tạo đối tượng String mới trong Heap có thể làm tăng chi phí về bộ nhớ và không tận dụng được tính chất pooling.
+
+- Nếu sử dụng new() để tạo đối tượng String, mỗi lần tạo đều tạo ra một đối tượng mới, ngay cả khi giá trị chuỗi giống nhau.
+
+19. Có khả hết bộ nhớ trong chương trình không khi đã có garbage collector, tại sao.
+Mặc dù có garbage collector trong Java để tự động thu hồi bộ nhớ không sử dụng, nhưng việc không quản lý bộ nhớ một cách cẩn thận vẫn có thể dẫn đến tình trạng "out of memory" (hết bộ nhớ). Dưới đây là một số nguyên nhân khiến chương trình có thể gặp phải tình trạng hết bộ nhớ:
+
+- Memory Leaks:
+Garbage collector không thể thu hồi bộ nhớ của các đối tượng vẫn đang được tham chiếu và không còn sử dụng. Nếu bạn không giải phóng đúng các tài nguyên hoặc giữ tham chiếu đến đối tượng mà không cần thiết, các đối tượng đó sẽ không bao giờ được thu hồi và gây ra sự cố hết bộ nhớ.
+
+- Khối Lượng Dữ Liệu Lớn:
+Nếu chương trình của bạn xử lý một lượng lớn dữ liệu mà không giải phóng bộ nhớ đúng cách, có thể gây ra hết bộ nhớ. Điều này có thể xảy ra trong các ứng dụng đồ họa, xử lý hình ảnh, xử lý dữ liệu lớn, v.v.
+
+- Quá Nhiều Đối Tượng Tạm Thời (Temporary Objects):
+Nếu chương trình tạo ra quá nhiều đối tượng tạm thời, có thể gây áp lực lên garbage collector và tạo ra overhead lớn khi thu hồi bộ nhớ. Việc này có thể dẫn đến hiện tượng "stop-the-world" khi toàn bộ chương trình tạm dừng để garbage collector thực hiện.
+
+- Vòng Lặp Có Thể Đệ Quy Vô Hạn (Infinite Recursive Loop):
+Nếu chương trình có một vòng lặp đệ quy không hết, có thể tạo ra một số lượng lớn các frame trên stack, dẫn đến hết bộ nhớ.
+
+- Kích Thước Heap Không Đủ:
+Nếu bạn giới hạn kích thước của heap (ví dụ, thông qua tham số -Xmx khi chạy chương trình Java), và chương trình yêu cầu một lượng bộ nhớ lớn hơn, nó có thể dẫn đến tình trạng hết bộ nhớ.
+Để tránh tình trạng hết bộ nhớ, quan trọng để quản lý bộ nhớ một cách cẩn thận, giải phóng đúng các tài nguyên, và kiểm soát kích thước của heap theo cách thích hợp.
+
+20. Java thread lifecycle
+- Luồng (thread) trong Java có một chu kỳ sống (lifecycle) từ khi nó được tạo đến khi nó kết thúc. Chu kỳ sống của luồng bao gồm các trạng thái khác nhau, và các phương thức mà bạn có thể sử dụng để kiểm soát và quản lý luồng đó.
+
+Dưới đây là các trạng thái chính trong chu kỳ sống của một luồng Java:
+
+- New (Mới Tạo):
+Luồng mới tạo bắt đầu ở trạng thái này.
+Luồng ở trạng thái này không thể bắt đầu chạy cho đến khi bạn gọi phương thức start().
+
+- Runnable (Chạy):
+Luồng ở trạng thái Runnable khi nó đã được tạo và start() đã được gọi, nhưng chưa chạy hoặc đang chờ CPU để chạy.
+Ở trạng thái này, luồng có thể chạy nếu CPU có sẵn hoặc đang chờ cho quyền chạy.
+- Blocked (Bị Chặn):
+Một luồng ở trạng thái Blocked khi nó tạm thời dừng hoạt động.
+Điều này có thể xảy ra khi luồng đang chờ sự kiện nào đó xảy ra (ví dụ: đọc từ một nguồn dữ liệu), khiến cho luồng phải dừng lại.
+
+- Waiting (Đang Chờ):
+Luồng ở trạng thái Waiting khi nó đang chờ cho một sự kiện cụ thể.
+Luồng sẽ ở trạng thái này khi gọi các phương thức như Object.wait() hoặc Thread.sleep().
+
+- Timed Waiting (Đang Chờ Có Thời Gian):
+Tương tự như trạng thái Waiting, nhưng luồng sẽ tự động chuyển sang trạng thái Runnable sau một khoảng thời gian nhất định.
+Điều này xảy ra khi gọi các phương thức như Thread.sleep() với thời gian cụ thể.
+
+- Terminated (Kết Thúc):
+Luồng ở trạng thái Terminated khi nó đã kết thúc hoạt động của mình.
+Luồng có thể kết thúc theo các cách khác nhau, ví dụ như khi phương thức run() của nó hoàn tất hoặc khi có một ngoại lệ không được xử lý.
+
+- Chu kỳ sống của một luồng có thể được biểu diễn bằng đồ thị trạng thái, và các phương thức quan trọng để kiểm soát luồng bao gồm start(), join(), sleep(), wait(), và notify().
+
+21. Ưu nhược điểm giữa sử dụng ordered array và unordered array
+- Cả ordered array (mảng có thứ tự) và unordered array (mảng không có thứ tự) đều là cấu trúc dữ liệu cơ bản, nhưng chúng có những ưu nhược điểm khác nhau, và lựa chọn giữa chúng thường phụ thuộc vào nhu cầu và yêu cầu cụ thể của ứng dụng. Dưới đây là một số ưu nhược điểm của cả hai loại mảng:
+
+* Ordered Array (Mảng Có Thứ Tự)
+
+- Ưu điểm:
++ Tìm Kiếm Hiệu Quả: Với mảng đã sắp xếp, bạn có thể sử dụng phương pháp tìm kiếm nhị phân để tìm kiếm một phần tử trong O(log n) thời gian, với n là kích thước của mảng.
++ Tìm Phần Tử Lớn Nhất, Nhỏ Nhất Dễ Dàng
+Phần tử lớn nhất (hoặc nhỏ nhất) có thể được tìm thấy ở đầu (hoặc cuối) của mảng.
+
+- Nhược điểm:
++ Chèn và Xóa Phức Tạp: Việc chèn (insert) và xóa (delete) phần tử từ mảng có thứ tự có thể phức tạp vì đòi hỏi di chuyển các phần tử để duy trì thứ tự.
++ Yêu Cầu Sắp Xếp: Đối với mảng có thứ tự, việc duy trì thứ tự là quan trọng. Nếu có thêm, xóa hoặc chèn phần tử, bạn cần đảm bảo rằng mảng vẫn duy trì thứ tự.
+
+* Unordered Array (Mảng Không Có Thứ Tự):
+
+- Ưu điểm:
++ Chèn và Xóa Hiệu Quả: Việc chèn và xóa phần tử từ mảng không có thứ tự thường đơn giản hơn và hiệu quả hơn vì không cần duy trì thứ tự.
++ Không Yêu Cầu Sắp Xếp: Mảng không có thứ tự không đòi hỏi việc duy trì thứ tự khi thêm, xóa hoặc chèn phần tử.
+
+- Nhược điểm:
++ Tìm Kiếm Phức Tạp: Tìm kiếm trong mảng không có thứ tự có thể đòi hỏi thời gian tìm kiếm tuyến tính O(n), với n là kích thước của mảng.
++ Không Thuận Tiện Khi Cần Thông Tin Sắp Xếp: Nếu bạn thường xuyên cần thông tin được sắp xếp, mảng không có thứ tự có thể không phù hợp.
+
+--> Lựa chọn giữa ordered array và unordered array phụ thuộc vào các yêu cầu cụ thể của vấn đề và thao tác phổ biến mà bạn sẽ thực hiện trên mảng.
+
+22. Memory Leak, một số nguyên nhân gây ra, ví dụ
+
+Memory leak là hiện tượng khi một ứng dụng không giải phóng bộ nhớ mà nó đã cấp phát, dẫn đến sự lãng phí tài nguyên và có thể gây hệ quả tiêu cực như làm giảm hiệu suất của ứng dụng hoặc thậm chí làm cho chương trình bị hết bộ nhớ.
+Dưới đây là một số nguyên nhân phổ biến gây ra memory leak, cùng với ví dụ:
+
+- Không Giải Phóng Bộ Nhớ Sau Khi Sử Dụng: Khi một đối tượng được cấp phát bộ nhớ bằng từ khóa new, cần phải giải phóng bộ nhớ sau khi không còn cần đến nó. Nếu quên giải phóng, memory leak có thể xảy ra.
+ex: // Khởi tạo và cấp phát bộ nhớ cho một mảng
+int[] array = new int[10];
+
+// Quên giải phóng bộ nhớ
+// array = null; // Cách giải phóng bộ nhớ
+
+- Circular References: Trong các ngôn ngữ hỗ trợ garbage collection, circular references (tham chiếu tròn) có thể dẫn đến memory leak nếu các đối tượng trong chuỗi tham chiếu không thể được thu hồi.
+ex: class Node {
+    Node next;
+}
+
+Node node1 = new Node();
+Node node2 = new Node();
+
+node1.next = node2;
+node2.next = node1; // Circular reference
+
+- Lưu Trữ Không Cần Thiết Trong Caches hoặc Collections: Khi lưu trữ đối tượng trong caches hoặc collections, cần đảm bảo rằng đối tượng đó được loại bỏ khi không cần thiết nữa.
+ex: Map<String, Object> cache = new HashMap<>();
+// Thêm đối tượng vào cache
+cache.put("key", new Object());
+// Quên loại bỏ đối tượng khi không cần nữa
+// cache.remove("key");
+
+- Không Đóng Tài Nguyên: Khi làm việc với các tài nguyên như file, database connections, streams, cần đảm bảo rằng tài nguyên được đóng sau khi sử dụng để giải phóng bộ nhớ.
+ex: BufferedReader reader = new BufferedReader(new FileReader("example.txt"));
+// Sử dụng tài nguyên
+// Quên đóng tài nguyên
+// reader.close();
+
+- Quên Giải Phóng Tham Chiếu Của Thread-local Objects: Khi sử dụng thread-local variables, cần đảm bảo rằng các tham chiếu được giải phóng sau khi không còn cần.
+ex: ThreadLocal<Object> threadLocal = new ThreadLocal<>();
+// Gán giá trị cho thread-local variable
+threadLocal.set(new Object());
+// Quên giải phóng tham chiếu
+// threadLocal.remove();
+
+--> Để tránh memory leak, quan trọng để kiểm tra và đảm bảo rằng tất cả các tài nguyên và đối tượng được giải phóng một cách đúng đắn sau khi chúng không còn cần thiết.
+
+23. Giải thích key word this, super
+Trong Java, this và super là từ khóa đặc biệt được sử dụng để tham chiếu đến các thành phần cụ thể trong mã nguồn, như biến, phương thức, hoặc constructor.
+
+* 'this' là biến đặc biệt địa diện cho ô nhớ HEAP. 'this' là đối tượng biến đang gọi đến hàm, thuộc tính cần gọi. 
+- 'this' được sử dụng để tham chiếu đến biến hoặc phương thức của đối tượng hiện tại.
+- 'this' được sử dụng để gọi constructor của chính lớp hiện tại. Điều này thường được sử dụng khi có nhiều constructor trong một lớp và bạn muốn tái sử dụng mã nguồn.
+- 'this' có thể sử dụng để trả về chính đối tượng hiện tại từ một phương thức, giúp tạo ra chuỗi gọi phương thức liên tiếp (method chaining).
+
+* 'super' là đối tượng chỉ được phép gọi những hàm thuộc tính của class cha.
+- 'super' được sử dụng để gọi phương thức hoặc truy cập biến của lớp cha khi một lớp con kế thừa từ lớp cha.
+- 'super' cũng được sử dụng để gọi constructor của lớp cha từ constructor của lớp con. Điều này thường xảy ra khi bạn muốn khởi tạo các thành phần của lớp cha trước khi thực hiện các công việc của lớp con.
+Sử dụng this và super giúp rõ ràng hóa và quản lý phạm vi của biến và phương thức, đồng thời hỗ trợ trong việc thực hiện kế thừa và tái sử dụng mã nguồn.
+
+24. Dynamic Method Dispatch
+- Dynamic Method Dispatch là một khái niệm trong lập trình hướng đối tượng, nơi mà quyết định về việc thực thi phương thức được đưa ra tại thời điểm runtime (thời điểm chạy chương trình). Trong Java, Dynamic Method Dispatch thường được áp dụng trong ngữ cảnh kế thừa và đa hình.
+
+- Cơ Chế Dynamic Method Dispatch:
++ Kế Thừa và Override Phương Thức: Dynamic Method Dispatch xảy ra khi một lớp con kế thừa một phương thức từ lớp cha và override (ghi đè) phương thức đó.
+ex: class Animal {
+    void sound() {
+        System.out.println("Animal makes a sound");
+    }
+}
+
+class Dog extends Animal {
+    void sound() {
+        System.out.println("Dog barks");
+    }
+}
+
+class Cat extends Animal {
+    void sound() {
+        System.out.println("Cat meows");
+    }
+}
+
++ Tham Chiếu Đối Tượng: Một đối tượng có thể được tham chiếu bằng cả kiểu của nó và kiểu của lớp cha. Tham chiếu này có thể thay đổi tại thời điểm runtime.
+ex: Animal animal1 = new Dog();
+Animal animal2 = new Cat();
+
++ Gọi Phương Thức: Khi gọi phương thức thông qua tham chiếu, Java sẽ xác định phương thức nào sẽ được gọi dựa trên kiểu của đối tượng thực tế được tạo ra tại thời điểm runtime.
+ex: animal1.sound(); // Gọi phương thức sound() của lớp Dog
+animal2.sound(); // Gọi phương thức sound() của lớp Cat
+
+* Ưu Điểm của Dynamic Method Dispatch:
+- Đa Hình (Polymorphism): Dynamic Method Dispatch hỗ trợ đa hình, cho phép một phương thức có thể được triển khai theo cách khác nhau trong các lớp con.
+
+- Mã Nguồn Dễ Đọc và Dễ Bảo Trì: Khi sử dụng Dynamic Method Dispatch, mã nguồn trở nên dễ đọc và dễ bảo trì hơn vì một thay đổi trong lớp con không ảnh hưởng đến việc sử dụng phương thức của lớp cha.
+
+* Lưu Ý: Dynamic Method Dispatch chỉ áp dụng cho phương thức non-static và được override. Phương thức static và final không tham gia Dynamic Method Dispatch.
+
+Cơ chế này cực kỳ quan trọng trong việc thực hiện đa hình trong Java, nơi phương thức cụ thể được xác định tại thời điểm runtime.
+
+
+25. Phân biệt toán tử >>> và  >>
+Toán tử >> và >>> đều là toán tử dịch bit (bitwise right shift) trong Java, được sử dụng để dịch các bit của một số nguyên sang bên phải. Tuy nhiên, có một sự khác biệt chính giữa chúng liên quan đến cách xử lý bit đầu vào và cách xử lý bit dấu (nếu có). Dưới đây là phân biệt giữa chúng:
+
+- Toán Tử >> (Signed Right Shift):
+Toán tử >> thực hiện dịch bit sang phải với dấu (signed right shift).
+Nếu giá trị ban đầu là dương, thì các bit dấu 0 được thêm vào ở bên trái để giữ nguyên giá trị dương.
+Nếu giá trị ban đầu là âm, thì các bit dấu 1 được thêm vào ở bên trái để giữ nguyên giá trị âm.
+
+ex: int num = -8;
+int result = num >> 2; // -8 >> 2
+System.out.println(result); // Output: -2
+
+--> Trong trường hợp trên, giá trị -8 (0b11111111111111111111111111111000) được dịch phải 2 bit với dấu, và kết quả là -2 (0b11111111111111111111111111111110).
+
+- Toán Tử >>> (Unsigned Right Shift):
+Toán tử >>> thực hiện dịch bit sang phải không dấu (unsigned right shift).
+Cả bit dấu và các bit giữa của số âm đều được thêm vào ở bên trái với giá trị 0.
+Điều này đảm bảo rằng giá trị được xem xét như là một số không dấu.
+
+ex: int num = -8;
+int result = num >>> 2; // -8 >>> 2
+System.out.println(result); // Output: 1073741822
+
+- Trong trường hợp trên, giá trị -8 (0b11111111111111111111111111111000) được dịch phải 2 bit không dấu, và kết quả là 1073741822 (0b00111111111111111111111111111110).
+
+Tóm Tắt:
+>> là toán tử dịch bit sang phải với dấu.
+>>> là toán tử dịch bit sang phải không dấu.
+
+26. Tại sao cần sử dụng generics, cho ví dụ
+- Generics là một tính năng quan trọng trong Java, giúp chúng ta viết mã linh hoạt và tái sử dụng được trong nhiều tình huống khác nhau. Các ưu điểm của generics bao gồm:
+
+- Kiểm Tra Kiểu Tại Thời Gian Biên Dịch (Compile-Time Type Checking): Generics cho phép kiểm tra kiểu tại thời gian biên dịch, giúp phát hiện và tránh được lỗi kiểu tại thời điểm chạy.
+ex: // Trước generics (Java 5 trở về trước)
+List myList = new ArrayList();
+myList.add("Hello"); // Không có lỗi kiểu tại thời điểm biên dịch
+Integer value = (Integer) myList.get(0); // Lỗi kiểu tại thời điểm chạy
+
+// Sau generics (Java 5 trở đi)
+List<String> myGenericList = new ArrayList<>();
+myGenericList.add("Hello");
+// Kiểm tra kiểu tại thời điểm biên dịch, không có lỗi kiểu tại thời điểm chạy
+String genericValue = myGenericList.get(0);
+
+- Tái Sử Dụng Mã Nguồn (Code Reusability): Generics giúp tái sử dụng mã nguồn một cách hiệu quả bằng cách viết mã một lần và sử dụng cho nhiều kiểu dữ liệu khác nhau.
+ex: // Trước generics (Java 5 trở về trước)
+List myList = new ArrayList();
+myList.add(10);
+myList.add("Hello"); // Không an toàn và không linh hoạt
+
+// Sau generics (Java 5 trở đi)
+List<Integer> myGenericList = new ArrayList<>();
+myGenericList.add(10);
+// An toàn và linh hoạt
+
+- Phòng Ngừa Sự Làm Rối (Avoiding Casts): Generics giúp tránh việc phải sử dụng casting (ép kiểu) khi lấy dữ liệu từ một cấu trúc dữ liệu.
+ex1: // Trước generics (Java 5 trở về trước)
+List myList = new ArrayList();
+myList.add(10);
+Integer value = (Integer) myList.get(0); // Cần phải sử dụng casting
+
+// Sau generics (Java 5 trở đi)
+List<Integer> myGenericList = new ArrayList<>();
+myGenericList.add(10);
+Integer genericValue = myGenericList.get(0); // Không cần casting
+
+ex2:// Sử dụng generics để tạo một danh sách linh hoạt với nhiều kiểu dữ liệu
+public class Box<T> {
+    private T value;
+
+    public void setValue(T value) {
+        this.value = value;
+    }
+
+    public T getValue() {
+        return value;
+    }
+
+    public static void main(String[] args) {
+        // Sử dụng Box với kiểu dữ liệu là String
+        Box<String> stringBox = new Box<>();
+        stringBox.setValue("Hello");
+        String stringValue = stringBox.getValue();
+
+        // Sử dụng Box với kiểu dữ liệu là Integer
+        Box<Integer> integerBox = new Box<>();
+        integerBox.setValue(10);
+        Integer intValue = integerBox.getValue();
+    }
+}
+Trong ví dụ trên, Box là một class generics có thể được sử dụng với nhiều kiểu dữ liệu khác nhau mà không cần phải viết lại mã nguồn.
+
+27. Interface: default method, ...
+Khi nào cần tạo ra 1 parent class mà các method trong đó không có thân hàm và sử dụng multiple extend thì xài interface.
+
+Phân biệt abstract class và interface
++ Abstract class: Chứa hàm trừu tượng và hàm bình thường
+  Chỉ extend được từ duy nhất 1 class, abstract class - single extend
+  
++ Interface: Chỉ chứa hàm trừu tượng
+  Có thể implement từ nhiều interface - multiple implements
+
+28. Try with resources
+"Try-with-resources" là một cú pháp trong Java được giới thiệu từ phiên bản Java 7 trở đi để quản lý tài nguyên tự động, như mở và đóng file, kết nối cơ sở dữ liệu, và các tài nguyên khác có thể được đóng lại. Cú pháp này giúp đảm bảo rằng các tài nguyên sẽ được đóng đúng cách sau khi được sử dụng, giảm thiểu lỗi và tối ưu hóa mã nguồn.
+
+- Cú pháp của "Try-with-resources" sử dụng từ khóa 'try' kết hợp với 'AutoCloseable' hoặc 'Closeable' interface để tự động đóng tài nguyên. Cả hai interface này đều có một phương thức 'close()' được gọi khi kết thúc khối 'try'.
+- Dưới đây là một ví dụ sử dụng "Try-with-resources" khi đọc nội dung từ một file:
+ex: import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class TryWithResourcesExample {
+
+    public static void main(String[] args) {
+        // Từ khóa try-with-resources
+        try (BufferedReader reader = new BufferedReader(new FileReader("example.txt"))) {
+            // Mã nguồn xử lý dữ liệu từ file
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            // Xử lý ngoại lệ nếu có lỗi khi đọc file
+            e.printStackTrace();
+        }
+    }
+}
+Trong ví dụ trên:
+
+BufferedReader được khởi tạo trong khối try và được tự động đóng khi khối try kết thúc.
+Không cần phải gọi phương thức close() explicit, "Try-with-resources" sẽ tự động thực hiện việc này.
+Điều này giúp giảm lỗi trong việc quản lý tài nguyên và làm mã nguồn trở nên sạch sẽ hơn.
+
+
+Design pattern:
+Singleton
+Factory
+Builder
+Aggregator
+Stategy
+Bridge
+Command 
+State
+
+
+- overview dự án làm gì?
+	+ Chủ yếu là hỏi về công nghệ, kiến trúc sử dụng trong dự án.
+- các công nghệ trong dự án?
+	+ Tại sao lại sử dụng nó.
+	+ Họ có thể sẽ đưa ra ví dụ công nghệ tương đương rồi hỏi sao không dùng cái này cái kia.
+- cần chú ý gì hôm phỏng vấn không?
+	+ Công nghệ chủ yếu hỏi về hibernate, JPA, migration tool, kafka, ci/cd gitlab, docker, spring docs, eureka.
+	+ Dự án đang dùng java 17, đối với yêu cầu phỏng vấn thì đã dùng qua từ 11 trở lên là ok.
+	+ Framework thì hỏi một số kiến thức spring boot, spring cloud cơ bản.
+	+ Kiến trúc thì khách đang dùng micro service.
+	+ Nếu có show code gần đây code chỉ nên show code mà ứng viên hiểu rõ nhất và biết lí do tại sao sử dụng.
+    + Database cũng nên biết về postgres, mongodb
+    + Tiếng anh thì biết giới thiệu bản thân chút xíu cũng được. Đọc viết thì phải thành thạo vì tài liệu yêu cầu và trao đổi lâu lâu họp meeting đột xuất sẽ cần dùng
+
+
+

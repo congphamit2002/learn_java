@@ -1,0 +1,25 @@
+1. Enter a year of birth
+   >> Calculate age of candidate
+   >> Introduce : A - Validate data before execute Integer.parse with Regex
+		  B - Using try catch
+
+2. Write a method to get devision of a and b
+   >> | Using throw new ArithmeticException()
+   >> | Using throws ArithmeticException
+
+   ==> Place where called devide method >> try/catch and don't to see the result
+
+3. Introduce NPE with code following
+   >> Item: id, name
+   >> Item[] items = new Item[2]
+   >> METHOD: foreach -> updateValues(item) -> setter
+
+   ==> Initial instance of Item(null) before call updateValues  
+
+4.  Introduce Compile | Runtime Exception
+    File file = new File(path) >> throws CompileException
+    >> Explain the diff between new File() and devide methods
+
+5. Introduce finally block
+
+6. Introduce own Exception with ZeroException and message

@@ -1,0 +1,380 @@
+CREATE OR REPLACE PROCEDURE P_IMPORT_WAWI_ORDERS(p_proc_mark IN varchar2, p_whid IN INTEGER, p_is_delta_fetch IN INTEGER)
+IS
+  action_code INTEGER;
+
+  BEGIN
+
+  -- Collect ids of items that are controlled in any of the next 5 days
+  insert into gtt_dc_controlled_item_ids (c_itemid)
+  select itemid
+  from (
+    select day_1.itemid
+    from table (f_get_controlled_items_wh (sysdate, p_whid)) day_1
+    union
+    select day_2.itemid
+    from table (f_get_controlled_items_wh (sysdate+1, p_whid)) day_2
+    union
+    select day_3.itemid
+    from table (f_get_controlled_items_wh (sysdate+2, p_whid)) day_3
+    union
+    select day_4.itemid
+    from table (f_get_controlled_items_wh (sysdate+3, p_whid)) day_4
+    union
+    select day_5.itemid
+    from table (f_get_controlled_items_wh (sysdate+4, p_whid)) day_5
+  );
+
+    MERGE INTO T840_CORRECTED_ORDERS corr_orders
+    USING
+      (SELECT imp.C890_STOREID,
+              imp.C890_ORDER_DUE_DATE,
+              imp.C890_PICKLIST_NR,
+              ci.c_itemid as itemid,
+              imp.C890_SALESPRICE,
+              imp.C890_CASE_SIZE,
+              imp.C890_KEY_CODE
+       FROM gtt_dc_controlled_item_ids ci
+         JOIN T015_STORES st ON  st.C015_WHID = p_whid
+         JOIN T060_ITEMS it ON it.C060_ITEMID = ci.c_itemid
+         JOIN T890_WAWI_ORDERS imp ON imp.C890_STOREID            = st.C015_STOREID
+                                      AND imp.C890_PROC_MARK      = p_proc_mark
+                                      AND imp.C890_ITEM_NR        = it.C060_ORIG_ITEM_NR
+                                      AND imp.C890_ORDER_DUE_DATE >= trunc(SYSDATE)
+                                      AND imp.C890_PROC_STATUS    IN ('UPDATED', 'ADDED')
+         LEFT JOIN T995_COUNTRY_PARAMETERS cp ON st.C015_COUNTRYID  = cp.C995_COUNTRYID
+                                      AND cp.C995_KEY               = 'dispo_controlling.wawi.unordered-item.keycode'
+      WHERE (cp.C995_VALUE    IS null
+         OR imp.C890_KEY_CODE <> cp.C995_VALUE)) wawi
+    ON (    corr_orders.C840_STOREID         = wawi.C890_STOREID
+            AND corr_orders.C840_ITEMID      = WAWI.ITEMID
+            AND corr_orders.C840_ORDER_DATE  = wawi.C890_ORDER_DUE_DATE
+            AND corr_orders.C840_ORDER_NR    = wawi.C890_PICKLIST_NR
+    )
+    WHEN MATCHED THEN
+    UPDATE
+    SET corr_orders.C840_SALEPRICE          = wawi.C890_SALESPRICE,
+        corr_orders.C840_WAWI_CASESIZE      = wawi.C890_CASE_SIZE,
+        corr_orders.C840_ORDER_STATUS       = wawi.C890_KEY_CODE;
+
+
+    MERGE INTO T847_STORE_ORDERS st_orders
+    USING
+      (SELECT imp.C890_STOREID,
+         imp.C890_ORDER_DUE_DATE,
+         imp.C890_PICKLIST_NR,
+         imp.C890_SUM_QTY_PIECE,
+         imp.C890_SALESPRICE,
+         imp.C890_SUM_QTY_COLLI,
+         ci.c_itemid as itemid,
+         imp.C890_COLLI_OR_PIECE,
+         imp.C890_ORDERAREA,
+         imp.C890_COMB_ITEMNR,
+         imp.C890_IS_FROM_FVM,
+         imp.C890_CASE_SIZE,
+         imp.C890_KEY_CODE
+       FROM gtt_dc_controlled_item_ids ci
+         JOIN T015_STORES st ON  st.C015_WHID = p_whid
+         JOIN T060_ITEMS it ON it.C060_ITEMID = ci.c_itemid
+         JOIN T890_WAWI_ORDERS imp ON imp.C890_STOREID            = st.C015_STOREID
+                                      AND imp.C890_PROC_MARK      = p_proc_mark
+                                      AND imp.C890_ITEM_NR        = it.C060_ORIG_ITEM_NR
+                                      AND imp.C890_ORDER_DUE_DATE >= trunc(SYSDATE)
+                                      AND imp.C890_PROC_STATUS    <> 'DELETED'
+         LEFT JOIN T995_COUNTRY_PARAMETERS cp ON st.C015_COUNTRYID  = cp.C995_COUNTRYID
+                                      AND cp.C995_KEY               = 'dispo_controlling.wawi.unordered-item.keycode'
+       WHERE (cp.C995_VALUE      IS null
+            OR imp.C890_KEY_CODE <> cp.C995_VALUE)) wawi
+    ON (    wawi.ITEMID                  = st_orders.C847_ITEMID
+            AND wawi.C890_STOREID        = st_orders.C847_STOREID
+            AND wawi.C890_ORDER_DUE_DATE = st_orders.C847_ORDER_DUE_DATE
+            AND wawi.C890_PICKLIST_NR    = st_orders.C847_ORDER_NR
+            AND st_orders.C847_WHID      = p_whid)
+WHEN NOT MATCHED THEN
+    INSERT (
+        C847_STORE_ORDERS_ID,
+        C847_WHID,
+        C847_SUM_QTY_PIECES,
+        C847_STOREID,
+        C847_ORDER_NR,
+        C847_ITEMID,
+        C847_ORDER_DUE_DATE,
+        C847_SUM_QTY_CASES,
+        C847_SALEPRICE,
+        C847_WAWI_ITEMNR,
+        C847_ORDERAREA_NR,
+        C847_WAWI_COLLI_OR_PIECE,
+        C847_WAWI_CASESIZE,
+        C847_IS_FROM_FVM,
+        C847_ORDER_STATUS,
+        C847_SOURCE)
+    VALUES (
+      S847_STORE_ORDERS.nextval,
+      p_whid,
+      wawi.C890_SUM_QTY_PIECE,
+      wawi.C890_STOREID,
+      wawi.C890_PICKLIST_NR,
+      wawi.ITEMID,
+      wawi.C890_ORDER_DUE_DATE,
+      wawi.C890_SUM_QTY_COLLI,
+      wawi.C890_SALESPRICE,
+      wawi.C890_COMB_ITEMNR,
+      TO_NUMBER(TRIM(wawi.C890_ORDERAREA)),
+      wawi.C890_COLLI_OR_PIECE,
+      wawi.C890_CASE_SIZE,
+      wawi.C890_IS_FROM_FVM,
+      wawi.C890_KEY_CODE,
+      'WAWI')
+WHEN MATCHED THEN
+   UPDATE
+    SET st_orders.C847_WAWI_ITEMNR         = wawi.C890_COMB_ITEMNR,
+        st_orders.C847_SUM_QTY_PIECES      = wawi.C890_SUM_QTY_PIECE,
+        st_orders.C847_SUM_QTY_CASES       = wawi.C890_SUM_QTY_COLLI,
+        st_orders.C847_WAWI_COLLI_OR_PIECE = wawi.C890_COLLI_OR_PIECE,
+        st_orders.C847_SALEPRICE           = wawi.C890_SALESPRICE,
+        st_orders.C847_WAWI_CASESIZE       = wawi.C890_CASE_SIZE,
+        st_orders.C847_ORDER_STATUS        = wawi.C890_KEY_CODE
+   WHERE st_orders.C847_WHID = p_whid;
+
+--LIDL-3105 - reset to ZERO those orders which marked by FVM interface value and on second were removed from WaWi during second loading
+UPDATE T847_STORE_ORDERS so
+SET so.C847_SUM_QTY_PIECES      = 0,
+  so.C847_SUM_QTY_CASES         = 0
+WHERE so.C847_STORE_ORDERS_ID IN
+  (SELECT store_order.C847_STORE_ORDERS_ID
+    FROM T847_STORE_ORDERS store_order
+    INNER JOIN T060_ITEMS item
+      ON item.C060_ITEMID = store_order.C847_ITEMID
+    LEFT JOIN T890_WAWI_ORDERS wawi
+      ON wawi.C890_ITEM_NR         = item.C060_ORIG_ITEM_NR
+      AND wawi.C890_STOREID        = store_order.C847_STOREID
+      AND wawi.C890_ORDER_DUE_DATE = store_order.C847_ORDER_DUE_DATE
+      AND wawi.C890_PICKLIST_NR    = store_order.C847_ORDER_NR
+      AND TO_NUMBER(TRUNC(wawi.C890_ORDERAREA)) = store_order.C847_ORDERAREA_NR
+      AND wawi.C890_PROC_MARK      = p_proc_mark
+    LEFT JOIN T995_COUNTRY_PARAMETERS cp
+      ON item.C060_COUNTRYID = cp.C995_COUNTRYID
+      AND cp.C995_KEY        = 'dispo_controlling.wawi.unordered-item.keycode'
+    WHERE store_order.C847_WHID    = p_whid
+      AND store_order.C847_ORDER_DUE_DATE >= TRUNC(SYSDATE)
+      AND store_order.C847_IS_FROM_FVM     = 1
+      AND (
+        (p_is_delta_fetch = 0 AND wawi.C890_STOREID IS NULL)
+        OR (p_is_delta_fetch = 1 AND wawi.C890_PROC_STATUS  = 'DELETED')
+        OR (p_is_delta_fetch = 1 AND wawi.C890_PROC_STATUS  = 'UPDATED' AND  wawi.C890_KEY_CODE = cp.C995_VALUE)
+      )
+  );
+
+-- update store order stock information for all imported (added or changed) controlled items
+merge into t888_store_order_stock store_order_stock
+using (
+  select
+    st.c015_whid         as whid,
+    st.c015_storeid      as storeid,
+    it.c060_itemid       as itemid,
+    trunc(sysdate)       as receiptdate, -- we don't care which day the order is for, all stock information is current
+    max(imp.c890_stock  -- use max because even though stock should be the same for an item/store, we need just one value
+      * coalesce(hica.c122_manual_casesize,  item_wh_details.c061_casesize)) as qty_stock  -- multiply by case size
+  from gtt_dc_controlled_item_ids ci
+  inner join t015_stores st
+    on st.c015_whid = p_whid
+  inner join t060_items it
+    on it.c060_itemid = ci.c_itemid
+  inner join t890_wawi_orders imp
+    on imp.c890_storeid          = st.c015_storeid
+    and imp.c890_proc_mark       = p_proc_mark
+    and imp.c890_item_nr         = it.c060_orig_item_nr
+    and imp.c890_order_due_date >= trunc(sysdate)
+    and imp.c890_proc_status    <> 'DELETED'
+  left join t122_historical_casesize hica
+    on hica.c122_itemid = it.c060_itemid
+    and hica.c122_whid  = p_whid
+    and trunc(sysdate) between hica.c122_valid_from and coalesce(hica.c122_valid_until,to_date('9999', 'yyyy'))
+  left join t061_item_details_wh item_wh_details
+    on item_wh_details.c061_whid    = p_whid
+    and item_wh_details.c061_itemid = it.c060_itemid
+  group by st.c015_whid, st.c015_storeid, it.c060_itemid
+  ) wawi
+on (
+      wawi.whid        = store_order_stock.c888_whid
+  and wawi.storeid     = store_order_stock.c888_storeid
+  and wawi.itemid      = store_order_stock.c888_itemid
+  and wawi.receiptdate = store_order_stock.c888_receiptdate
+)
+when not matched then
+  insert (
+    c888_whid,
+    c888_storeid,
+    c888_itemid,
+    c888_receiptdate,
+    c888_qty_stock
+  ) values (
+    wawi.whid,
+    wawi.storeid,
+    wawi.itemid,
+    wawi.receiptdate,
+    wawi.qty_stock
+  )
+when matched then
+  update
+    set c888_qty_stock = wawi.qty_stock
+    where decode(c888_qty_stock, wawi.qty_stock, 1, 0) = 0; -- update only when stock changed to save IO
+
+
+-- update historized prices from all imported (added or changed) orders
+merge into t886_historical_sales_prices historical_prices
+using (
+  select
+    st.c015_whid             as whid,
+    st.c015_storeid          as storeid,
+    it.c060_itemid           as itemid,
+    imp.c890_order_due_date  as receiptdate,
+    max(imp.c890_salesprice) as price -- use max because even though price should be the same for an item/store/date, we need just one value
+  from gtt_dc_controlled_item_ids ci
+  inner join t015_stores st
+    on st.c015_whid = p_whid
+  inner join t060_items it
+    on it.c060_itemid = ci.c_itemid
+  inner join t890_wawi_orders imp
+    on imp.c890_storeid          = st.c015_storeid
+    and imp.c890_proc_mark       = p_proc_mark
+    and imp.c890_item_nr         = it.c060_orig_item_nr
+    and imp.c890_order_due_date >= trunc(sysdate)
+    and imp.c890_proc_status    <> 'DELETED'
+    and imp.c890_salesprice is not null
+  left join t995_country_parameters cp
+    on st.c015_countryid = cp.c995_countryid
+    and cp.c995_key      = 'dispo_controlling.wawi.unordered-item.keycode'
+  where (cp.c995_value   is null
+    or imp.c890_key_code <> cp.c995_value)
+  group by st.c015_whid, st.c015_storeid, it.c060_itemid, imp.c890_order_due_date
+  ) wawi
+on (
+      wawi.whid        = historical_prices.c886_whid
+  and wawi.storeid     = historical_prices.c886_storeid
+  and wawi.itemid      = historical_prices.c886_itemid
+  and wawi.receiptdate = historical_prices.c886_receiptdate
+)
+when not matched then
+  insert (
+    c886_whid,
+    c886_storeid,
+    c886_itemid,
+    c886_receiptdate,
+    c886_price
+  ) values (
+    wawi.whid,
+    wawi.storeid,
+    wawi.itemid,
+    wawi.receiptdate,
+    wawi.price
+  )
+when matched then
+  update
+    set c886_price = wawi.price
+    where c886_whid = wawi.whid
+      and decode(c886_price, wawi.price, 1, 0) = 0; -- update only when price changed to save IO
+
+--for key codes with action 'delete' do deletion of the data from T847, T840 and T846
+
+SELECT COUNT(1) into action_code FROM DUAL
+WHERE EXISTS (SELECT NULL
+              FROM T841_PICKLIST_ACTION_MAPPING
+              WHERE C841_ACTION_CODE = 1);
+
+
+IF action_code > 0
+THEN
+DELETE FROM T840_CORRECTED_ORDERS
+WHERE (C840_WHID,
+       C840_STOREID,
+       C840_ORDER_DATE,
+       C840_ORDER_NR,
+       C840_ORDERAREAID) IN (SELECT p_whid,
+                                    WAWI.C890_STOREID,
+                                    WAWI.C890_ORDER_DUE_DATE,
+                                    WAWI.C890_PICKLIST_NR,
+                                    ors.C013_ORDERAREAID
+                             FROM T890_WAWI_ORDERS WAWI
+                               JOIN T013_ORDERAREAS ors ON ors.C013_WHID = p_whid AND ors.C013_ORDERAREA_NR = TO_NUMBER(WAWI.C890_ORDERAREA)
+                               JOIN T841_PICKLIST_ACTION_MAPPING mp  ON mp.C841_PICKLIST_STATUS = WAWI.C890_KEY_CODE
+                                                                    AND mp.C841_ORDERAREAID = ors.C013_ORDERAREAID
+                                                                    AND mp.C841_ACTION_CODE = 1
+                             WHERE WAWI.C890_PROC_MARK = p_proc_mark)
+;
+
+DELETE FROM T847_STORE_ORDERS
+WHERE C847_WHID = p_whid AND (C847_STOREID,
+                              C847_ORDER_DUE_DATE,
+                              C847_ORDER_NR,
+                              C847_ORDERAREA_NR) IN (SELECT WAWI.C890_STOREID,
+                                                              WAWI.C890_ORDER_DUE_DATE,
+                                                              WAWI.C890_PICKLIST_NR,
+                                                              WAWI.C890_ORDERAREA
+                                                       FROM T890_WAWI_ORDERS WAWI
+                                                         JOIN T013_ORDERAREAS ors ON ors.C013_WHID = p_whid AND ors.C013_ORDERAREA_NR = TO_NUMBER(WAWI.C890_ORDERAREA)
+                                                         JOIN T841_PICKLIST_ACTION_MAPPING mp ON mp.C841_PICKLIST_STATUS = WAWI.C890_KEY_CODE
+                                                                                             AND mp.C841_ORDERAREAID = ors.C013_ORDERAREAID
+                                                                                             AND mp.C841_ACTION_CODE = 1
+                                                       WHERE WAWI.C890_PROC_MARK = p_proc_mark);
+
+DELETE FROM T846_ARCH_CORR_ORDERS
+WHERE (C846_STOREID,
+       C846_ORDER_DATE,
+       C846_ORDER_NR,
+       C846_ORDERAREAID) IN (SELECT WAWI.C890_STOREID,
+                                    WAWI.C890_ORDER_DUE_DATE,
+                                    WAWI.C890_PICKLIST_NR,
+                                    ors.C013_ORDERAREAID
+                             FROM T890_WAWI_ORDERS WAWI
+                               JOIN T013_ORDERAREAS ors ON ors.C013_WHID = p_whid AND ors.C013_ORDERAREA_NR = TO_NUMBER(WAWI.C890_ORDERAREA)
+                               JOIN T841_PICKLIST_ACTION_MAPPING mp ON mp.C841_PICKLIST_STATUS = WAWI.C890_KEY_CODE
+                                                                   AND mp.C841_ORDERAREAID = ors.C013_ORDERAREAID
+                                                                   AND mp.C841_ACTION_CODE = 1
+                             WHERE WAWI.C890_PROC_MARK = p_proc_mark) AND C846_WHID = p_whid;
+
+DELETE FROM T843_ARCH_SUCC_CORR
+WHERE (C843_STOREID,
+       C843_ORDER_DATE,
+       C843_ORDER_NR,
+       C843_ORDERAREAID) IN (SELECT WAWI.C890_STOREID,
+                                    WAWI.C890_ORDER_DUE_DATE,
+                                    WAWI.c890_PICKLIST_NR,
+                                    mp.C841_ORDERAREAID
+                             FROM T890_WAWI_ORDERS WAWI
+                               JOIN T013_ORDERAREAS ors ON ors.C013_WHID = p_whid AND ors.C013_ORDERAREA_NR = TO_NUMBER(WAWI.C890_ORDERAREA)
+                               JOIN T841_PICKLIST_ACTION_MAPPING mp ON mp.C841_PICKLIST_STATUS = WAWI.C890_KEY_CODE
+                                                                   AND mp.C841_ORDERAREAID = ors.C013_ORDERAREAID
+                                                                   AND mp.C841_ACTION_CODE = 1
+                             WHERE WAWI.C890_PROC_MARK = p_proc_mark) AND C843_WHID = p_whid;
+
+DELETE FROM T856_ORDER_NUMBERS
+WHERE (C856_STOREID,
+       C856_RECEIPTDATE,
+       C856_ORDER_NR,
+       C856_ORDERAREAID) IN (SELECT WAWI.C890_STOREID,
+                               WAWI.C890_ORDER_DUE_DATE,
+                               WAWI.C890_PICKLIST_NR,
+                               mp.C841_ORDERAREAID
+                        FROM T890_WAWI_ORDERS WAWI
+                          JOIN T013_ORDERAREAS ors ON ors.C013_WHID = p_whid AND ors.C013_ORDERAREA_NR = TO_NUMBER(WAWI.C890_ORDERAREA)
+                          JOIN T841_PICKLIST_ACTION_MAPPING mp ON mp.C841_PICKLIST_STATUS = WAWI.C890_KEY_CODE
+                                                              AND MP.C841_ORDERAREAID = ors.C013_ORDERAREAID
+                                                              AND mp.C841_ACTION_CODE = 1
+                        WHERE WAWI.C890_PROC_MARK = p_proc_mark);
+
+END IF;
+--prepare list of stores for 'o' marking
+P_UPDATE_WAWI_LOAD_STORES_WH(p_proc_mark, p_whid);
+
+EXCEPTION
+
+ WHEN OTHERS THEN
+  PKG_ERRORS.WRITE_LOG (
+                        IN_PROC_NAME => 'P_IMPORT_WAWI_ORDERS',
+                        IN_SQL_ERRM  => SQLERRM,
+                        IN_SQL_CODE  => SQLCODE
+                        );
+  RAISE;
+
+END;
+/

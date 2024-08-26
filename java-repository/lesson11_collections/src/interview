@@ -1,0 +1,123 @@
+- Collections là tập hợp các phần tử cho phép thay đổi số lượng
+phần tử (dynamic)
+- Collections là class interface (bản chất vẫn là mảng) chỉ hỗ trợ đối tượng
++ List là một danh sách có số lượng các phần tử có thể thay đổi được,
+trùng nhau (không giới hạn số lượng phần tử, dễ dàng thêm sửa xóa)
++ Set là một danh sách tập hợp các phần tử không trùng nhau => cần override lại hàm hashCode và equals, không quan tâm thứ tự của các phần tử (không duy trì thứ tự) 
++ Map lưu trữ ở dạng invalue (1 entry gồm key và value, key không được trùng nhau) => cần override lại hàm hashCode và equals
++ Linkedlist là một danh sách liên kết
++ Array ưu điểm là lấy ra (get, set) nhanh nhờ index nhưng nhược điểm thì càng thêm nhiều
+thì sẽ càng chậm (add, remove)
++ Linklist không truy cập theo index
+- Danh sách liên kết đơn với mỗi phần tử trong danh sách liên kết không nằm cạnh
+nhau mà nó sẽ liên kết với nhau thông qua 1 cái link (biến tham chiếu tới phần tử tiếp theo)
+- Gồm 2 phần chính data và next
++ Phần tử đầu tiên được gọi là head cuối cùng là tail
++ Muốn truy cập phần tử thử n thì ta chỉ cần duyệt từ đầu
+đến phần tử thứ n - 1 vì trong các node đã có thông tin của node tiếp theo.
+=> di chuyển 1 chiều từ trái sang phải.
+- Danh sách liên kết đôi mỗi node gồm 3 phần data, left, right tối ưu hơn liên kết đơn
+có thể duyệt từ trái sang phải hoặc ngược lại.
+Danh sách liên kết vòng được tạo ra từ 1 trong 2 loại trên
++ Loại 1 nếu trong liên kết đơn tail nối với head thì sẽ tạo ra liên kết vòng.
+
+Set có HashSet<E> (không đảm bảo thứ tự phần tử đưa vào)
+       LinkedHashSet<E> (đảm bảo thứ tự phần tử đưa vào)
+       TreeSet<E> (tự động sort theo E tương tự như TreeMap tự động sort theo với key)
+
+- Deque vì trong danh sách liên kết ko truy cập theo index nên khi duyệt
+deque sẽ xem thử vị trí gọi đến gần thằng đầu hay thằng cuối hơn để gọi tối ưu hóa tốc độ
+hiệu năng.
+
+- Generic class là một class hoặc interface có tham số truyền vào là một
+generic type (khi là một generic class ta có thể tham số hóa kiểu dữ liệu
+cho nó - parameterized over types)
+- Vì sao không dùng private Object o; => vì đôi lúc runtime, không limit (không bao lại kiểu dữ liệu)
+=> Generic class (custom)
+- Với một generic type thì ta không thể dùng từ khóa new để new nó ra vì lúc compile nó chả biết đây là
+cái gì để new nó ra cả.
+- Cách để new một mạng là generic type => Array.newInstance(componentType, length);
+
+Lưu ý: Khi dùng List<E> thì cần phải override lại equals khi thực hiện remove, contains
+=> Bởi vì default của equals sử dụng toán tử == để so sánh, thì như đã được học so sánh bằng toán tử ==
+ta sẽ so sánh địa chỉ ở vùng nhớ stack chứ không có so sánh giá trị ở heap vì vậy ta cần override lại method trên
+
+- Còn khi dùng với Map<K, V> và Set<E> ta cần override lại 2 hàm equals và hashcode
+=> Nếu hashcode theo thuộc tính nào đó thì equals cũng phải theo thuộc tính đó luôn
+
+- Khi nào dùng Array, List, Set, Map, Stack, Queue
+=> Array: Dùng khi biết số lượng phần tử tối đa của mảng đó (fix size)
+=> List: Dùng khi lưu các danh sách các phần tử trùng nhau cũng được, không trùng cũng được, khi lưu một danh sách không biết trước số lượng, không quan tâm vị trí index (thêm, sửa, xóa)
+=> Set: Dùng khi lưu các danh sách các phần tử không trùng nhau.
+=> Map: Dùng để lưu danh sách các phần tử theo cơ chế key - value, để dễ dàng tìm kiếm phần tử đó theo key
+=> Stack: Khi lưu các danh sách các phần tử vào trước ra sau, vào sau ra trước (không hỗ trợ get theo index)
+=> Queue: Vào trước ra trước, vào sau ra sau (không hỗ trợ get theo index)
+
+ArrayList (Array)
+
++ Get: Fast ==> O(1) --> index
++ Set: Fast ==> O(1) --> index
++ Add: Slow ==> mất thời gian để shift right
++ Delete: Slow ==> mất thời gian để shift left
+ 
+
+1. Phân biệt List và ArrayList
+	ArrayList là một cái mảng
+	Object[] elementData
+	// indexOf là hàm tìm vị trí xuất hiện đầu tiên trong mảng
+	sequences.contains("A2");
+	
+	public boolean add(E e){ // E e = "A1", size = 0,
+		modCount++;
+		add(e, elementData, size);
+		return true;
+	}
+	
+	private void add(E e, Object[] elementData, int s){
+		if( s == elementData.length){
+			elementData = grow(); // tạo mảng mới
+			elementData[s] = e;
+			size = s + 1;
+		}
+	}
+	
+	private Object[] grow(){
+		return grow(size + 1);
+	}
+	
+	// size = 1	
+	// elementData[] = {null, null, ... , null} (x10) 
+	private Object[] grow(int minCapacity){
+		return elementData - Arrays.copyOf(elementData,
+						 newCapacity(minCapacity));
+						// Arrays.copyOf(elementData, 10);
+	}
+
+List<String> sequences = new ArrayList<>();
+--> elementData = {}
+sequences.add();
+2. Phân biệt Array và ArrayList
+
+3. Phân biệt ArrayList và LinkedList
+GET:       ArrayList > LinkedList
+SET:       ArrayList > LinkedList
+
+ArrayList: shift right, left
+LinkedList: iterate, find
+
+ADD LAST:  ArrayList ~ LinkedList
+ADD FIRST: ArrayList < LinkedList
+ADD MID:   ArrayList > LinkedList
+
+REMOVE LAST:  ArrayList ~ LinkedList
+REMOVE FIRST: ArrayList < LinkedList
+REMOVE MID:   ArrayList > LinkedList
+
+ArrayList  : GET, SET
+LinkedList :
+
+
+===> GENERIC --> Ví dụ: List<E> ArrayList<T> Function<? extends Comparable<T>>
+   --> E, T, .. --> generic type
+   --> tham số, nhận 'kiểu dữ liệu' khi gọi nó
+   --> cơ bản --> T, E tạm giống như Object kèm tiện ích

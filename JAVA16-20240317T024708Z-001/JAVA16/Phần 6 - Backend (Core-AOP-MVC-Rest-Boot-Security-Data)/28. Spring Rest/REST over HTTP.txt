@@ -1,0 +1,19 @@
+HTTP prototocol
+
+REST: architecture
+
+REST API: API || Web API implements idea of REST architecture
++ Input: Parameters
++ Data Format: JSON XML XHTML HTML
+
+>> We call REST API via HTTP methods
+>> Language dependent
+>> Approach for communication between systems
+
+@RequestParam("studentId") int studentId
+GET: http://localhost:8080/07-spring-rest-basic/api/students?studentId=7
+POST: action="http://localhost:8080/07-spring-rest-basic/api/students"
+      input type=... name="studentId"
+
+@PathVariable
+GET: http://localhost:8080/07-spring-rest-basic/api/students/7

@@ -1,0 +1,67 @@
+--- GIT MERGE DEMO ---
+Trường hợp A: 
+  + Gộp 2 nhánh trên một đường thẳng
+  + Gộp 2 nhánh có quan hệ cha-con
+  Ví dụ: 1 2 3(master) 4 5(feature)
+  
+  A1: Gộp nhánh cha vào con
+     --> Gộp master vào feature
+	 B1: git checkout feature
+	 B2: git merge master
+	 --> Already up to date = Nothing to merge
+	 
+  A2: Gộp nhánh con vào cha
+     --> Gộp nhánh feature vào nhánh master
+	 B1: git checkout master
+	 B2: git merge feature
+	 1 2 3 4 5(master, feature)
+	 --> Fast forward
+  
+  
+Trường hợp B:
+  + Gộp 2 nhánh không nằm trên một đường thẳng(rẻ nhánh)
+  + Gộp 2 nhánh không có quan hệ cha con
+  Ví dụ: 1 2 3(master) 4 5(feature)
+             6 7 8(bug)
+  ==> Gộp bug vào feature
+  ==> diversed
+  B1: Không xuất hiện conflict
+  --> Gộp nhánh bug vào feature
+  Step 1: git checkout feature
+  Step 2: git merge bug
+  ...........................
+  Kết quả:
+  1 2 3(master) 4 5
+                     9(feature)
+      6 7 8(bug)
+  
+  
+  B2: Xuất hiện conflicts
+  --> Gộp nhánh bug vào feature
+  Step 1: git checkout feature
+  Step 2: git merge bug
+  ...........................
+  --> conflicts
+  git status --> để xem unmerge paths
+  /*
+  You have unmerged paths.
+  (fix conflicts and run "git commit")
+  (use "git merge --abort" to abort the merge)
+
+  Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+        both modified:   readme.txt
+
+   no changes added to commit (use "git add" and/or "git commit -a")
+  */
+  1. Mở file readme.txt(unmerged path)
+  2. Fix conflicts(chọn code mình mong muốn)
+  3. ---> Chạy lại code xem đúng chưa -->
+  4. git add readme.txt(để mark resolution(đánh dấu là đã fix))
+  5. git commit -m "git merge branhc X into T"
+  ...........................
+  Kết quả:
+  1 2 3(master) 4 5
+                     9(feature)
+      6 7 8(bug)
+  
